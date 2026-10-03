@@ -1,0 +1,106 @@
+{
+  "@@locale": "id",
+  "appTitle": "MapRate",
+  "mapAttribution": "© OpenStreetMap",
+  "centerCurrencyTitle": "Mata uang di pusat peta",
+  "resolving": "Mencari…",
+  "moveMapHint": "Gerakkan peta untuk mendeteksi negara dan mata uang di pusat.",
+  "countryCodeLabel": "Kode negara {code}",
+  "@countryCodeLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "countryWithCode": "{name} ({code})",
+  "@countryWithCode": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyLine": "Mata uang {label}",
+  "@currencyLine": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "Tidak diketahui",
+  "invalidCoordinates": "Lintang atau bujur tidak valid",
+  "geocoderUnavailable": "Perangkat ini tidak dapat mencari negara",
+  "countryNotFound": "Tidak dapat mengidentifikasi negara di lokasi ini",
+  "countryLookupFailed": "Tidak dapat mengambil info negara. Periksa koneksi.",
+  "exchangeListTitle": "Kurs di peta",
+  "updatedAt": "Diperbarui: {time}",
+  "@updatedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "rateDate": "Tanggal kurs: {date}",
+  "@rateDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notUpdatedYet": "Belum diperbarui",
+  "dataSourceTitle": "Tentang data kurs",
+  "dataSourceBody": "MapRate memuat kurs mid-market dari ExchangeRate-API (open.er-api.com), lalu feed CDN, lalu Frankfurter. Jumlah dikonversi via USD. Grafik sparkline memakai riwayat Frankfurter jika tersedia. Kurs indikatif, bukan kuotasi trading.",
+  "pinCountry": "Sematkan",
+  "unpinCountry": "Lepas sematan",
+  "reorderHint": "Seret pegangan untuk mengurutkan",
+  "loadingRates": "Memuat kurs…",
+  "ratesLoadFailed": "Kurs live gagal dimuat. Menampilkan data seed bawaan.",
+  "retry": "Coba lagi",
+  "offlineSeedHint": "Kurs seed offline",
+  "rateUnavailable": "T/A",
+  "noCountriesOnMap": "Tidak ada mata uang terlihat. Geser peta atau sematkan negara.",
+  "amountHint": "Jumlah",
+  "close": "Tutup",
+  "aboutTitle": "Tentang MapRate",
+  "aboutBody": "MapRate menghubungkan peta dunia dengan kurs live. Gerakkan peta untuk melihat mata uang di pusat, konversi jumlah, dan sematkan negara untuk membandingkan.",
+  "settingsTitle": "Pengaturan",
+  "languageTitle": "Bahasa",
+  "languageSystem": "Default sistem",
+  "showTrendChart": "Tampilkan grafik tren",
+  "trendChartTitle": "Tren kurs",
+  "myLocationTooltip": "Ke lokasi saya",
+  "locationPermissionDenied": "Izin lokasi ditolak",
+  "locationServiceDisabled": "Nyalakan layanan lokasi untuk fitur ini",
+  "locationFailed": "Tidak dapat mendapatkan lokasi Anda",
+  "menuAbout": "Tentang",
+  "menuSettings": "Pengaturan",
+  "adLoading": "Memuat iklan…",
+  "trendAxisUnit": "Tanggal (hari)",
+  "trendYAxisUnit": "{currency} per 1 USD",
+  "@trendYAxisUnit": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "baseInputLabel": "Diinput",
+  "updateAvailableTitle": "Pembaruan tersedia",
+  "updateAvailableBody": "Versi {version} tersedia. Silakan perbarui.",
+  "updateNow": "Perbarui",
+  "updateLater": "Nanti",
+  "updateOpenFailed": "Tidak bisa membuka toko",
+  "appVersionLabel": "Versi {version}",
+  "checkForUpdate": "Periksa pembaruan",
+  "updateUpToDate": "Anda memakai versi terbaru",
+  "updateCheckFailed": "Tidak bisa memeriksa pembaruan",
+  "hideExchangeList": "Sembunyikan kurs",
+  "showExchangeList": "Tampilkan kurs"
+}

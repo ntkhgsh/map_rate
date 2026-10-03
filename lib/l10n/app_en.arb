@@ -1,0 +1,120 @@
+{
+  "@@locale": "en",
+  "appTitle": "MapRate",
+  "mapAttribution": "© OpenStreetMap",
+  "centerCurrencyTitle": "Currency at map center",
+  "resolving": "Looking up…",
+  "moveMapHint": "Move the map to detect the country and currency at the center.",
+  "countryCodeLabel": "Country code {code}",
+  "@countryCodeLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "countryWithCode": "{name} ({code})",
+  "@countryWithCode": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyLine": "Currency {label}",
+  "@currencyLine": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "Unknown",
+  "invalidCoordinates": "Latitude or longitude is invalid",
+  "geocoderUnavailable": "This device cannot look up countries",
+  "countryNotFound": "Could not identify the country at this location",
+  "countryLookupFailed": "Could not fetch country info. Check your connection.",
+  "exchangeListTitle": "Exchange rates on map",
+  "updatedAt": "Updated: {time}",
+  "@updatedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "rateDate": "Rate date: {date}",
+  "@rateDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notUpdatedYet": "Not updated yet",
+  "dataSourceTitle": "About exchange data",
+  "dataSourceBody": "MapRate loads mid-market rates from ExchangeRate-API (open.er-api.com), then a CDN currency feed, then Frankfurter. Amounts convert via USD. Sparklines use Frankfurter history when available. Rates are indicative, not trade quotes.",
+  "pinCountry": "Pin",
+  "unpinCountry": "Unpin",
+  "reorderHint": "Drag the handle to reorder",
+  "loadingRates": "Loading rates…",
+  "ratesLoadFailed": "Could not load live rates. Showing bundled seed.",
+  "retry": "Retry",
+  "offlineSeedHint": "Offline seed rates",
+  "rateUnavailable": "N/A",
+  "noCountriesOnMap": "No currencies in view. Pan the map or pin a country.",
+  "amountHint": "Amount",
+  "close": "Close",
+  "aboutTitle": "About MapRate",
+  "aboutBody": "MapRate links a world map to live exchange rates. Move the map to see each country’s currency at the center, convert amounts, and pin countries to compare.",
+  "settingsTitle": "Settings",
+  "languageTitle": "Language",
+  "languageSystem": "System default",
+  "showTrendChart": "Show trend chart",
+  "trendChartTitle": "Rate trend",
+  "myLocationTooltip": "Go to my location",
+  "locationPermissionDenied": "Location permission was denied",
+  "locationServiceDisabled": "Turn on location services to use this feature",
+  "locationFailed": "Could not get your location",
+  "menuAbout": "About",
+  "menuSettings": "Settings",
+  "adLoading": "Loading ad…",
+  "trendAxisUnit": "Date (day)",
+  "trendYAxisUnit": "{currency} per 1 USD",
+  "@trendYAxisUnit": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "baseInputLabel": "Entered",
+  "updateAvailableTitle": "Update available",
+  "updateAvailableBody": "Version {version} is available. Please update.",
+  "@updateAvailableBody": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updateNow": "Update",
+  "updateLater": "Later",
+  "updateOpenFailed": "Could not open the store",
+  "appVersionLabel": "Version {version}",
+  "@appVersionLabel": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "checkForUpdate": "Check for updates",
+  "updateUpToDate": "You are on the latest version",
+  "updateCheckFailed": "Could not check for updates",
+  "hideExchangeList": "Hide rates",
+  "showExchangeList": "Show rates"
+}

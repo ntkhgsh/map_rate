@@ -1,0 +1,106 @@
+{
+  "@@locale": "fr",
+  "appTitle": "MapRate",
+  "mapAttribution": "© OpenStreetMap",
+  "centerCurrencyTitle": "Devise au centre de la carte",
+  "resolving": "Recherche…",
+  "moveMapHint": "Déplacez la carte pour détecter le pays et la devise au centre.",
+  "countryCodeLabel": "Code pays {code}",
+  "@countryCodeLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "countryWithCode": "{name} ({code})",
+  "@countryWithCode": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyLine": "Devise {label}",
+  "@currencyLine": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "Inconnu",
+  "invalidCoordinates": "Latitude ou longitude invalide",
+  "geocoderUnavailable": "Cet appareil ne peut pas identifier les pays",
+  "countryNotFound": "Impossible d’identifier le pays à cet endroit",
+  "countryLookupFailed": "Impossible d’obtenir les infos pays. Vérifiez la connexion.",
+  "exchangeListTitle": "Taux de change sur la carte",
+  "updatedAt": "Mis à jour : {time}",
+  "@updatedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "rateDate": "Date du taux : {date}",
+  "@rateDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notUpdatedYet": "Pas encore mis à jour",
+  "dataSourceTitle": "À propos des données de change",
+  "dataSourceBody": "MapRate charge des taux médians depuis ExchangeRate-API (open.er-api.com), puis un flux CDN et Frankfurter. Les montants passent par l’USD. Les courbes utilisent l’historique Frankfurter si disponible. Taux indicatifs, pas des cotations de trading.",
+  "pinCountry": "Épingler",
+  "unpinCountry": "Désépingler",
+  "reorderHint": "Faites glisser la poignée pour réordonner",
+  "loadingRates": "Chargement des taux…",
+  "ratesLoadFailed": "Impossible de charger les taux en direct. Affichage des données locales.",
+  "retry": "Réessayer",
+  "offlineSeedHint": "Taux locaux hors ligne",
+  "rateUnavailable": "N/D",
+  "noCountriesOnMap": "Aucune devise visible. Déplacez la carte ou épinglez un pays.",
+  "amountHint": "Montant",
+  "close": "Fermer",
+  "aboutTitle": "À propos de MapRate",
+  "aboutBody": "MapRate relie une carte du monde aux taux de change en direct. Déplacez la carte pour voir la devise au centre, convertir des montants et épingler des pays pour comparer.",
+  "settingsTitle": "Réglages",
+  "languageTitle": "Langue",
+  "languageSystem": "Langue du système",
+  "showTrendChart": "Afficher le graphique de tendance",
+  "trendChartTitle": "Tendance du taux",
+  "myLocationTooltip": "Aller à ma position",
+  "locationPermissionDenied": "Autorisation de localisation refusée",
+  "locationServiceDisabled": "Activez les services de localisation pour cette fonction",
+  "locationFailed": "Impossible d’obtenir votre position",
+  "menuAbout": "À propos",
+  "menuSettings": "Réglages",
+  "adLoading": "Chargement de la publicité…",
+  "trendAxisUnit": "Date (jour)",
+  "trendYAxisUnit": "{currency} pour 1 USD",
+  "@trendYAxisUnit": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "baseInputLabel": "Saisi",
+  "updateAvailableTitle": "Mise à jour disponible",
+  "updateAvailableBody": "La version {version} est disponible. Veuillez mettre à jour.",
+  "updateNow": "Mettre à jour",
+  "updateLater": "Plus tard",
+  "updateOpenFailed": "Impossible d’ouvrir le store",
+  "appVersionLabel": "Version {version}",
+  "checkForUpdate": "Vérifier les mises à jour",
+  "updateUpToDate": "Vous avez la dernière version",
+  "updateCheckFailed": "Impossible de vérifier les mises à jour",
+  "hideExchangeList": "Masquer les cours",
+  "showExchangeList": "Afficher les cours"
+}

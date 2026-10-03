@@ -1,0 +1,106 @@
+{
+  "@@locale": "hi",
+  "appTitle": "MapRate",
+  "mapAttribution": "© OpenStreetMap",
+  "centerCurrencyTitle": "मानचित्र केंद्र की मुद्रा",
+  "resolving": "खोज की जा रही है…",
+  "moveMapHint": "केंद्र पर देश और मुद्रा पहचानने के लिए मानचित्र हिलाएँ।",
+  "countryCodeLabel": "देश कोड {code}",
+  "@countryCodeLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "countryWithCode": "{name} ({code})",
+  "@countryWithCode": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyLine": "मुद्रा {label}",
+  "@currencyLine": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "अज्ञात",
+  "invalidCoordinates": "अक्षांश या देशांतर अमान्य है",
+  "geocoderUnavailable": "यह डिवाइस देश खोज नहीं सकता",
+  "countryNotFound": "इस स्थान का देश पहचाना नहीं जा सका",
+  "countryLookupFailed": "देश की जानकारी नहीं मिली। कनेक्शन जाँचें।",
+  "exchangeListTitle": "मानचित्र पर विनिमय दर",
+  "updatedAt": "अपडेट: {time}",
+  "@updatedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "rateDate": "दर तिथि: {date}",
+  "@rateDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notUpdatedYet": "अभी अपडेट नहीं",
+  "dataSourceTitle": "विनिमय डेटा के बारे में",
+  "dataSourceBody": "MapRate ExchangeRate-API (open.er-api.com), CDN मुद्रा फ़ीड, फिर Frankfurter से मध्य-बाज़ार दरें लाता है। राशि USD के माध्यम से परिवर्तित होती है। स्पार्कलाइन Frankfurter इतिहास पर आधारित। दरें संकेतात्मक हैं, ट्रेड कोट नहीं।",
+  "pinCountry": "पिन",
+  "unpinCountry": "अनपिन",
+  "reorderHint": "क्रम बदलने के लिए हैंडल खींचें",
+  "loadingRates": "दरें लोड हो रही हैं…",
+  "ratesLoadFailed": "लाइव दरें लोड नहीं हुईं। बंडल्ड सीड दिखाया जा रहा है।",
+  "retry": "पुनः प्रयास",
+  "offlineSeedHint": "ऑफ़लाइन सीड दरें",
+  "rateUnavailable": "उपलब्ध नहीं",
+  "noCountriesOnMap": "दृश्य में कोई मुद्रा नहीं। मानचित्र घुमाएँ या देश पिन करें।",
+  "amountHint": "राशि",
+  "close": "बंद करें",
+  "aboutTitle": "MapRate के बारे में",
+  "aboutBody": "MapRate विश्व मानचित्र को लाइव विनिमय दरों से जोड़ता है। केंद्र पर देश की मुद्रा देखने, राशि बदलने और तुलना के लिए देश पिन करने हेतु मानचित्र हिलाएँ।",
+  "settingsTitle": "सेटिंग",
+  "languageTitle": "भाषा",
+  "languageSystem": "सिस्टम डिफ़ॉल्ट",
+  "showTrendChart": "ट्रेंड चार्ट दिखाएँ",
+  "trendChartTitle": "दर प्रवृत्ति",
+  "myLocationTooltip": "मेरे स्थान पर जाएँ",
+  "locationPermissionDenied": "स्थान अनुमति अस्वीकृत",
+  "locationServiceDisabled": "इस सुविधा के लिए स्थान सेवाएँ चालू करें",
+  "locationFailed": "आपका स्थान प्राप्त नहीं हो सका",
+  "menuAbout": "के बारे में",
+  "menuSettings": "सेटिंग",
+  "adLoading": "विज्ञापन लोड हो रहा है…",
+  "trendAxisUnit": "तिथि (दिन)",
+  "trendYAxisUnit": "1 USD पर {currency}",
+  "@trendYAxisUnit": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "baseInputLabel": "दर्ज",
+  "updateAvailableTitle": "अपडेट उपलब्ध है",
+  "updateAvailableBody": "संस्करण {version} उपलब्ध है। कृपया अपडेट करें।",
+  "updateNow": "अपडेट",
+  "updateLater": "बाद में",
+  "updateOpenFailed": "स्टोर नहीं खुल सका",
+  "appVersionLabel": "संस्करण {version}",
+  "checkForUpdate": "अपडेट जांचें",
+  "updateUpToDate": "आप नवीनतम संस्करण पर हैं",
+  "updateCheckFailed": "अपडेट जाँच नहीं हो सकी",
+  "hideExchangeList": "दरें छिपाएँ",
+  "showExchangeList": "दरें दिखाएँ"
+}

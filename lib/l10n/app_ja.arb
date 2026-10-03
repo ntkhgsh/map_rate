@@ -1,0 +1,106 @@
+{
+  "@@locale": "ja",
+  "appTitle": "MapRate",
+  "mapAttribution": "© OpenStreetMap",
+  "centerCurrencyTitle": "中心地点の通貨",
+  "resolving": "判定中です",
+  "moveMapHint": "地図を動かすと、中心の国と通貨を判定します",
+  "countryCodeLabel": "国コード {code}",
+  "@countryCodeLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "countryWithCode": "{name}（{code}）",
+  "@countryWithCode": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyLine": "通貨 {label}",
+  "@currencyLine": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "不明",
+  "invalidCoordinates": "緯度または経度が不正です",
+  "geocoderUnavailable": "この端末では国の判定ができません",
+  "countryNotFound": "この地点の国を特定できませんでした",
+  "countryLookupFailed": "国情報を取得できませんでした。通信状況を確認してください",
+  "exchangeListTitle": "表示中の為替",
+  "updatedAt": "更新: {time}",
+  "@updatedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "rateDate": "レート日付: {date}",
+  "@rateDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notUpdatedYet": "未更新",
+  "dataSourceTitle": "為替データの出典",
+  "dataSourceBody": "MapRate は open.er-api.com、CDN の currency-api、Frankfurter の順で中値レートを取得します。金額は米ドル（USD）経由で換算します。推移グラフは Frankfurter の履歴がある通貨だけ出します。売買の約定レートではありません。",
+  "pinCountry": "固定",
+  "unpinCountry": "固定解除",
+  "reorderHint": "右端をドラッグして順番を入れ替えられます",
+  "loadingRates": "レート取得中…",
+  "ratesLoadFailed": "オンライン取得に失敗。同梱レートを表示中",
+  "retry": "再取得",
+  "offlineSeedHint": "同梱の仮レート",
+  "rateUnavailable": "—",
+  "noCountriesOnMap": "表示範囲に通貨が分かる国がありません。地図を動かすか、国を固定してください。",
+  "amountHint": "金額",
+  "close": "閉じる",
+  "aboutTitle": "MapRate について",
+  "aboutBody": "MapRate は地図と為替レートを結びつけます。地図を動かすと中心の国の通貨を表示し、金額換算や国の固定で比較できます。",
+  "settingsTitle": "設定",
+  "languageTitle": "言語",
+  "languageSystem": "端末の設定に従う",
+  "showTrendChart": "推移グラフを表示",
+  "trendChartTitle": "レート推移",
+  "myLocationTooltip": "現在地へ移動",
+  "locationPermissionDenied": "位置情報の許可がありません",
+  "locationServiceDisabled": "位置情報サービスをオンにしてください",
+  "locationFailed": "現在地を取得できませんでした",
+  "menuAbout": "このアプリについて",
+  "menuSettings": "設定",
+  "adLoading": "広告を読み込み中…",
+  "trendAxisUnit": "日付（日）",
+  "trendYAxisUnit": "1 USDあたりの{currency}",
+  "@trendYAxisUnit": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "baseInputLabel": "入力中",
+  "updateAvailableTitle": "アップデートがあります",
+  "updateAvailableBody": "バージョン {version} が公開されています。更新してください。",
+  "updateNow": "更新する",
+  "updateLater": "あとで",
+  "updateOpenFailed": "ストアを開けませんでした",
+  "appVersionLabel": "バージョン {version}",
+  "checkForUpdate": "アップデートを確認",
+  "updateUpToDate": "最新バージョンです",
+  "updateCheckFailed": "アップデートを確認できませんでした",
+  "hideExchangeList": "為替リストを隠す",
+  "showExchangeList": "為替リストを表示"
+}

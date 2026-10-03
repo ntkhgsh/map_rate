@@ -1,0 +1,106 @@
+{
+  "@@locale": "es",
+  "appTitle": "MapRate",
+  "mapAttribution": "© OpenStreetMap",
+  "centerCurrencyTitle": "Moneda en el centro del mapa",
+  "resolving": "Buscando…",
+  "moveMapHint": "Mueva el mapa para detectar el país y la moneda en el centro.",
+  "countryCodeLabel": "Código de país {code}",
+  "@countryCodeLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "countryWithCode": "{name} ({code})",
+  "@countryWithCode": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyLine": "Moneda {label}",
+  "@currencyLine": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "Desconocido",
+  "invalidCoordinates": "Latitud o longitud no válida",
+  "geocoderUnavailable": "Este dispositivo no puede buscar países",
+  "countryNotFound": "No se pudo identificar el país en esta ubicación",
+  "countryLookupFailed": "No se pudo obtener información del país. Compruebe la conexión.",
+  "exchangeListTitle": "Tipos de cambio en el mapa",
+  "updatedAt": "Actualizado: {time}",
+  "@updatedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "rateDate": "Fecha del tipo: {date}",
+  "@rateDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notUpdatedYet": "Aún no actualizado",
+  "dataSourceTitle": "Sobre los datos de cambio",
+  "dataSourceBody": "MapRate carga tipos medios de ExchangeRate-API (open.er-api.com), luego un feed CDN y Frankfurter. Los importes se convierten vía USD. Los gráficos usan historial de Frankfurter cuando está disponible. Tipos orientativos, no cotizaciones de trading.",
+  "pinCountry": "Fijar",
+  "unpinCountry": "Quitar fijación",
+  "reorderHint": "Arrastre el control para reordenar",
+  "loadingRates": "Cargando tipos…",
+  "ratesLoadFailed": "No se pudieron cargar tipos en vivo. Mostrando datos locales.",
+  "retry": "Reintentar",
+  "offlineSeedHint": "Tipos locales sin conexión",
+  "rateUnavailable": "N/D",
+  "noCountriesOnMap": "No hay monedas visibles. Mueva el mapa o fije un país.",
+  "amountHint": "Importe",
+  "close": "Cerrar",
+  "aboutTitle": "Acerca de MapRate",
+  "aboutBody": "MapRate vincula un mapa mundial con tipos de cambio en vivo. Mueva el mapa para ver la moneda del país en el centro, convertir importes y fijar países para comparar.",
+  "settingsTitle": "Ajustes",
+  "languageTitle": "Idioma",
+  "languageSystem": "Predeterminado del sistema",
+  "showTrendChart": "Mostrar gráfico de tendencia",
+  "trendChartTitle": "Tendencia del tipo",
+  "myLocationTooltip": "Ir a mi ubicación",
+  "locationPermissionDenied": "Permiso de ubicación denegado",
+  "locationServiceDisabled": "Active los servicios de ubicación para usar esta función",
+  "locationFailed": "No se pudo obtener su ubicación",
+  "menuAbout": "Acerca de",
+  "menuSettings": "Ajustes",
+  "adLoading": "Cargando anuncio…",
+  "trendAxisUnit": "Fecha (día)",
+  "trendYAxisUnit": "{currency} por 1 USD",
+  "@trendYAxisUnit": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "baseInputLabel": "Introducido",
+  "updateAvailableTitle": "Actualización disponible",
+  "updateAvailableBody": "La versión {version} está disponible. Actualiza la app.",
+  "updateNow": "Actualizar",
+  "updateLater": "Más tarde",
+  "updateOpenFailed": "No se pudo abrir la tienda",
+  "appVersionLabel": "Versión {version}",
+  "checkForUpdate": "Buscar actualizaciones",
+  "updateUpToDate": "Ya tienes la última versión",
+  "updateCheckFailed": "No se pudieron buscar actualizaciones",
+  "hideExchangeList": "Ocultar tipos",
+  "showExchangeList": "Mostrar tipos"
+}

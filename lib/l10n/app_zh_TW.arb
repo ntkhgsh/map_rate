@@ -1,0 +1,106 @@
+{
+  "@@locale": "zh_TW",
+  "appTitle": "MapRate",
+  "mapAttribution": "© OpenStreetMap",
+  "centerCurrencyTitle": "地圖中心的貨幣",
+  "resolving": "正在查詢…",
+  "moveMapHint": "移動地圖以偵測中心位置的國家與貨幣。",
+  "countryCodeLabel": "國家代碼 {code}",
+  "@countryCodeLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "countryWithCode": "{name}（{code}）",
+  "@countryWithCode": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyLine": "貨幣 {label}",
+  "@currencyLine": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "未知",
+  "invalidCoordinates": "緯度或經度無效",
+  "geocoderUnavailable": "此裝置無法查詢國家",
+  "countryNotFound": "無法識別此位置的國家",
+  "countryLookupFailed": "無法取得國家資訊。請檢查網路連線。",
+  "exchangeListTitle": "地圖上的匯率",
+  "updatedAt": "更新：{time}",
+  "@updatedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "rateDate": "匯率日期：{date}",
+  "@rateDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notUpdatedYet": "尚未更新",
+  "dataSourceTitle": "關於匯率資料",
+  "dataSourceBody": "MapRate 依序從 ExchangeRate-API（open.er-api.com）、CDN 貨幣來源與 Frankfurter 取得中間價。金額經美元（USD）換算。走勢圖在 Frankfurter 有歷史資料時顯示。僅供參考，非交易報價。",
+  "pinCountry": "固定",
+  "unpinCountry": "取消固定",
+  "reorderHint": "拖曳把手以重新排序",
+  "loadingRates": "正在載入匯率…",
+  "ratesLoadFailed": "無法載入即時匯率。顯示內建種子資料。",
+  "retry": "重試",
+  "offlineSeedHint": "離線種子匯率",
+  "rateUnavailable": "不可用",
+  "noCountriesOnMap": "視野內沒有可識別的貨幣。請平移地圖或固定一個國家。",
+  "amountHint": "金額",
+  "close": "關閉",
+  "aboutTitle": "關於 MapRate",
+  "aboutBody": "MapRate 將世界地圖與即時匯率連結。移動地圖查看中心國家的貨幣，換算金額並固定國家以便比較。",
+  "settingsTitle": "設定",
+  "languageTitle": "語言",
+  "languageSystem": "跟隨系統",
+  "showTrendChart": "顯示走勢圖表",
+  "trendChartTitle": "匯率走勢",
+  "myLocationTooltip": "前往我的位置",
+  "locationPermissionDenied": "位置權限遭拒",
+  "locationServiceDisabled": "請開啟定位服務以使用此功能",
+  "locationFailed": "無法取得您的位置",
+  "menuAbout": "關於",
+  "menuSettings": "設定",
+  "adLoading": "正在載入廣告…",
+  "trendAxisUnit": "日期（日）",
+  "trendYAxisUnit": "每 1 USD 的 {currency}",
+  "@trendYAxisUnit": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "baseInputLabel": "已輸入",
+  "updateAvailableTitle": "有可用更新",
+  "updateAvailableBody": "版本 {version} 已發布，請更新。",
+  "updateNow": "立即更新",
+  "updateLater": "稍後",
+  "updateOpenFailed": "無法開啟商店",
+  "appVersionLabel": "版本 {version}",
+  "checkForUpdate": "檢查更新",
+  "updateUpToDate": "已是最新版本",
+  "updateCheckFailed": "無法檢查更新",
+  "hideExchangeList": "隱藏匯率列表",
+  "showExchangeList": "顯示匯率列表"
+}

@@ -1,0 +1,106 @@
+{
+  "@@locale": "de",
+  "appTitle": "MapRate",
+  "mapAttribution": "© OpenStreetMap",
+  "centerCurrencyTitle": "Währung in der Kartenmitte",
+  "resolving": "Suche…",
+  "moveMapHint": "Bewegen Sie die Karte, um Land und Währung in der Mitte zu erkennen.",
+  "countryCodeLabel": "Ländercode {code}",
+  "@countryCodeLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "countryWithCode": "{name} ({code})",
+  "@countryWithCode": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyLine": "Währung {label}",
+  "@currencyLine": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "Unbekannt",
+  "invalidCoordinates": "Breiten- oder Längengrad ungültig",
+  "geocoderUnavailable": "Dieses Gerät kann keine Länder ermitteln",
+  "countryNotFound": "Land an diesem Ort konnte nicht ermittelt werden",
+  "countryLookupFailed": "Länderinfo konnte nicht geladen werden. Verbindung prüfen.",
+  "exchangeListTitle": "Wechselkurse auf der Karte",
+  "updatedAt": "Aktualisiert: {time}",
+  "@updatedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "rateDate": "Kursdatum: {date}",
+  "@rateDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notUpdatedYet": "Noch nicht aktualisiert",
+  "dataSourceTitle": "Zu den Kursdaten",
+  "dataSourceBody": "MapRate lädt Mittelkurse von ExchangeRate-API (open.er-api.com), dann einem CDN-Feed und Frankfurter. Beträge werden über USD umgerechnet. Sparklines nutzen Frankfurter-Historie, wenn verfügbar. Kurse sind indikativ, keine Handelskurse.",
+  "pinCountry": "Anheften",
+  "unpinCountry": "Loslösen",
+  "reorderHint": "Griff ziehen zum Sortieren",
+  "loadingRates": "Kurse werden geladen…",
+  "ratesLoadFailed": "Live-Kurse nicht geladen. Gebündelte Seed-Daten werden angezeigt.",
+  "retry": "Erneut",
+  "offlineSeedHint": "Offline-Seed-Kurse",
+  "rateUnavailable": "k. A.",
+  "noCountriesOnMap": "Keine Währungen sichtbar. Karte schieben oder Land anheften.",
+  "amountHint": "Betrag",
+  "close": "Schließen",
+  "aboutTitle": "Über MapRate",
+  "aboutBody": "MapRate verbindet eine Weltkarte mit Live-Wechselkursen. Bewegen Sie die Karte, um die Währung in der Mitte zu sehen, Beträge umzurechnen und Länder zum Vergleich anzuheften.",
+  "settingsTitle": "Einstellungen",
+  "languageTitle": "Sprache",
+  "languageSystem": "Systemstandard",
+  "showTrendChart": "Trenddiagramm anzeigen",
+  "trendChartTitle": "Kursverlauf",
+  "myLocationTooltip": "Zu meinem Standort",
+  "locationPermissionDenied": "Standortberechtigung verweigert",
+  "locationServiceDisabled": "Standortdienste einschalten, um diese Funktion zu nutzen",
+  "locationFailed": "Standort konnte nicht ermittelt werden",
+  "menuAbout": "Über",
+  "menuSettings": "Einstellungen",
+  "adLoading": "Anzeige wird geladen…",
+  "trendAxisUnit": "Datum (Tag)",
+  "trendYAxisUnit": "{currency} je 1 USD",
+  "@trendYAxisUnit": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "baseInputLabel": "Eingabe",
+  "updateAvailableTitle": "Update verfügbar",
+  "updateAvailableBody": "Version {version} ist verfügbar. Bitte aktualisieren.",
+  "updateNow": "Aktualisieren",
+  "updateLater": "Später",
+  "updateOpenFailed": "Store konnte nicht geöffnet werden",
+  "appVersionLabel": "Version {version}",
+  "checkForUpdate": "Nach Updates suchen",
+  "updateUpToDate": "Sie nutzen die neueste Version",
+  "updateCheckFailed": "Update-Prüfung fehlgeschlagen",
+  "hideExchangeList": "Kurse ausblenden",
+  "showExchangeList": "Kurse anzeigen"
+}

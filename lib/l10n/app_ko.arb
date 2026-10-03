@@ -1,0 +1,106 @@
+{
+  "@@locale": "ko",
+  "appTitle": "MapRate",
+  "mapAttribution": "© OpenStreetMap",
+  "centerCurrencyTitle": "지도 중심의 통화",
+  "resolving": "조회 중…",
+  "moveMapHint": "지도를 움직이면 중심의 국가와 통화를 감지합니다.",
+  "countryCodeLabel": "국가 코드 {code}",
+  "@countryCodeLabel": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "countryWithCode": "{name} ({code})",
+  "@countryWithCode": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyLine": "통화 {label}",
+  "@currencyLine": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "unknown": "알 수 없음",
+  "invalidCoordinates": "위도 또는 경도가 올바르지 않습니다",
+  "geocoderUnavailable": "이 기기에서는 국가 조회를 할 수 없습니다",
+  "countryNotFound": "이 위치의 국가를 확인할 수 없습니다",
+  "countryLookupFailed": "국가 정보를 가져올 수 없습니다. 연결을 확인하세요.",
+  "exchangeListTitle": "지도상 환율",
+  "updatedAt": "업데이트: {time}",
+  "@updatedAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "rateDate": "환율 날짜: {date}",
+  "@rateDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notUpdatedYet": "아직 업데이트되지 않음",
+  "dataSourceTitle": "환율 데이터 정보",
+  "dataSourceBody": "MapRate는 ExchangeRate-API(open.er-api.com), CDN 통화 피드, Frankfurter 순으로 중간 환율을 불러옵니다. 금액은 USD를 거쳐 환산합니다. 스파크라인은 Frankfurter 기록이 있을 때 표시합니다. 참고용이며 거래 호가가 아닙니다.",
+  "pinCountry": "고정",
+  "unpinCountry": "고정 해제",
+  "reorderHint": "핸들을 드래그하여 순서 변경",
+  "loadingRates": "환율 불러오는 중…",
+  "ratesLoadFailed": "실시간 환율을 불러오지 못했습니다. 내장 시드 표시 중.",
+  "retry": "다시 시도",
+  "offlineSeedHint": "오프라인 시드 환율",
+  "rateUnavailable": "해당 없음",
+  "noCountriesOnMap": "보이는 통화가 없습니다. 지도를 이동하거나 국가를 고정하세요.",
+  "amountHint": "금액",
+  "close": "닫기",
+  "aboutTitle": "MapRate 정보",
+  "aboutBody": "MapRate는 세계 지도와 실시간 환율을 연결합니다. 지도를 움직여 중심 국가의 통화를 보고, 금액을 환산하고, 국가를 고정해 비교하세요.",
+  "settingsTitle": "설정",
+  "languageTitle": "언어",
+  "languageSystem": "시스템 기본값",
+  "showTrendChart": "추세 차트 표시",
+  "trendChartTitle": "환율 추세",
+  "myLocationTooltip": "내 위치로 이동",
+  "locationPermissionDenied": "위치 권한이 거부되었습니다",
+  "locationServiceDisabled": "이 기능을 사용하려면 위치 서비스를 켜세요",
+  "locationFailed": "위치를 가져올 수 없습니다",
+  "menuAbout": "정보",
+  "menuSettings": "설정",
+  "adLoading": "광고 로드 중…",
+  "trendAxisUnit": "날짜(일)",
+  "trendYAxisUnit": "USD 1당 {currency}",
+  "@trendYAxisUnit": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "baseInputLabel": "입력됨",
+  "updateAvailableTitle": "업데이트 있음",
+  "updateAvailableBody": "버전 {version}이(가) 있습니다. 업데이트해 주세요.",
+  "updateNow": "업데이트",
+  "updateLater": "나중에",
+  "updateOpenFailed": "스토어를 열 수 없습니다",
+  "appVersionLabel": "버전 {version}",
+  "checkForUpdate": "업데이트 확인",
+  "updateUpToDate": "최신 버전입니다",
+  "updateCheckFailed": "업데이트를 확인할 수 없습니다",
+  "hideExchangeList": "환율 목록 숨기기",
+  "showExchangeList": "환율 목록 보기"
+}
