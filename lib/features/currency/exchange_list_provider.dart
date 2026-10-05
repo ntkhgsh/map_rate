@@ -98,10 +98,12 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
     _lastBounds = bounds;
     _boundsDebounce?.cancel();
     _boundsDebounce = Timer(const Duration(milliseconds: 500), () {
+      // 国判定が終わる前の更新でも、直前の十字下の国を落とさない
+      final keepCenter = centerCountryCode ?? state.focusCountryCode;
       unawaited(
         setVisibleBounds(
           bounds,
-          centerCountryCode: centerCountryCode,
+          centerCountryCode: keepCenter,
           focusLat: focusLat,
           focusLng: focusLng,
         ),
@@ -136,15 +138,20 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
     final centerLng = focusLng ?? (bounds.east + bounds.west) / 2;
     final codes = visibleCountryCodes(
       view: bounds,
+      // 十字位置で近さを測る（大きな国の沿岸で一覧から落ちるのを防ぐ）
+      focusLat: centerLat,
+      focusLng: centerLng,
       extraCountryCodes: [
         ?centerCountryCode,
+        ?state.focusCountryCode,
       ],
     );
     await setVisibleCountries(
       codes,
       mapCenterLat: centerLat,
       mapCenterLng: centerLng,
-      focusCountryCode: centerCountryCode,
+      // 引数が無いときは、すでに分かっている十字下の国を維持する
+      focusCountryCode: centerCountryCode ?? state.focusCountryCode,
     );
   }
 
@@ -161,18 +168,24 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
         normalized.add(code);
       }
     }
-    final focus = normalizeCountryCode(focusCountryCode);
+    // 引数の focus が無いときも、直前の十字下の国は一覧に残す
+    final focus = normalizeCountryCode(focusCountryCode) ??
+        normalizeCountryCode(state.focusCountryCode);
     if (focus != null && currencyForCountryCode(focus) != null) {
       normalized.add(focus);
     }
-    // 固定国は地図外でも残す
-    final eligible = {...normalized, ...state.pinned};
+    // 固定国と十字下の国は、表示件数の上限対象外でも残す
+    final eligible = {
+      ...normalized,
+      ...state.pinned,
+      if (focus != null) focus,
+    };
     final next = _rebuildRows(
       state.copyWith(
         visibleCountryCodes: normalized,
         mapCenterLat: mapCenterLat ?? state.mapCenterLat,
         mapCenterLng: mapCenterLng ?? state.mapCenterLng,
-        focusCountryCode: focus ?? state.focusCountryCode,
+        focusCountryCode: focus,
       ),
       eligibleOverride: eligible,
     );
@@ -227,6 +240,20 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
 
       _lastFetchedCurrencies = Set<String>.from(currencies);
 
+      // オンライン取得に失敗して同梱シードになったとき、
+      // 端末に残っている前回レートの方が新しければ、そちらを優先する（オフライン利用）
+      final hasCachedRates = state.ratesPerUsd.length > 1 &&
+          state.sourceName != 'offline seed';
+      if (snapshot.isOfflineSeed && hasCachedRates) {
+        state = _rebuildRows(
+          state.copyWith(
+            isLoading: false,
+            errorKey: 'ratesLoadFailed',
+          ),
+        );
+        return;
+      }
+
       // 既存レートにマージ（取得できなかった通貨は古い値を残す）
       final mergedRates = Map<String, double>.from(state.ratesPerUsd)
         ..addAll(snapshot.ratesPerUsd);
@@ -246,6 +273,9 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
           clearError: !snapshot.isOfflineSeed,
         ),
       );
+
+      // 同梱シードで、端末キャッシュを上書きしない（次回オフラインでも前回レートを使う）
+      if (snapshot.isOfflineSeed) return;
 
       try {
         await _prefs.saveSnapshot(snapshot);
@@ -351,7 +381,13 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
   }
 
   Set<String> _eligibleCountries(ExchangeListState s) {
-    return {...s.visibleCountryCodes, ...s.pinned};
+    // 十字下の国は、表示件数の上限で visible から落ちても一覧に残す
+    final focus = normalizeCountryCode(s.focusCountryCode);
+    return {
+      ...s.visibleCountryCodes,
+      ...s.pinned,
+      if (focus != null) focus,
+    };
   }
 
   ExchangeListState _rebuildRows(

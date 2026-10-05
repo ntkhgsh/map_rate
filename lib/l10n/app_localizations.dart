@@ -227,7 +227,7 @@ abstract class AppLocalizations {
   /// No description provided for @dataSourceBody.
   ///
   /// In en, this message translates to:
-  /// **'MapRate loads mid-market rates from ExchangeRate-API (open.er-api.com), then a CDN currency feed, then Frankfurter. Amounts convert via USD. Sparklines use Frankfurter history when available. Rates are indicative, not trade quotes.'**
+  /// **'MapRate loads mid-market rates from ExchangeRate-API (open.er-api.com), then a CDN currency feed, then Frankfurter. Amounts convert via USD. Sparklines use Frankfurter history when available. Offline, MapRate uses the last saved rates or bundled seed rates, and map tiles you have already viewed. Rates are indicative, not trade quotes.'**
   String get dataSourceBody;
 
   /// No description provided for @pinCountry.
@@ -257,7 +257,7 @@ abstract class AppLocalizations {
   /// No description provided for @ratesLoadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not load live rates. Showing bundled seed.'**
+  /// **'Could not load live rates. Using saved or bundled rates.'**
   String get ratesLoadFailed;
 
   /// No description provided for @retry.
@@ -269,7 +269,7 @@ abstract class AppLocalizations {
   /// No description provided for @offlineSeedHint.
   ///
   /// In en, this message translates to:
-  /// **'Offline seed rates'**
+  /// **'Offline / bundled rates'**
   String get offlineSeedHint;
 
   /// No description provided for @rateUnavailable.
@@ -305,7 +305,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutBody.
   ///
   /// In en, this message translates to:
-  /// **'MapRate links a world map to live exchange rates. Move the map to see each country’s currency at the center, convert amounts, and pin countries to compare.'**
+  /// **'MapRate links a world map to exchange rates. Move the map to see each country’s currency at the center, convert amounts, and pin countries to compare. It also works offline with saved or bundled rates.'**
   String get aboutBody;
 
   /// No description provided for @settingsTitle.

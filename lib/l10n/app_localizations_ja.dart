@@ -75,7 +75,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get dataSourceBody =>
-      'MapRate は open.er-api.com、CDN の currency-api、Frankfurter の順で中値レートを取得します。金額は米ドル（USD）経由で換算します。推移グラフは Frankfurter の履歴がある通貨だけ出します。売買の約定レートではありません。';
+      'MapRate は open.er-api.com、CDN の currency-api、Frankfurter の順で中値レートを取得します。金額は米ドル（USD）経由で換算します。推移グラフは Frankfurter の履歴がある通貨だけ出します。オフライン時は、前回保存したレートまたは同梱の仮レートと、一度見た地図タイルを使います。売買の約定レートではありません。';
 
   @override
   String get pinCountry => '固定';
@@ -90,13 +90,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get loadingRates => 'レート取得中…';
 
   @override
-  String get ratesLoadFailed => 'オンライン取得に失敗。同梱レートを表示中';
+  String get ratesLoadFailed => 'オンライン取得に失敗。保存済みまたは同梱レートを表示中';
 
   @override
   String get retry => '再取得';
 
   @override
-  String get offlineSeedHint => '同梱の仮レート';
+  String get offlineSeedHint => 'オフライン／同梱レート';
 
   @override
   String get rateUnavailable => '—';
@@ -115,7 +115,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get aboutBody =>
-      'MapRate は地図と為替レートを結びつけます。地図を動かすと中心の国の通貨を表示し、金額換算や国の固定で比較できます。';
+      'MapRate は地図と為替レートを結びつけます。地図を動かすと中心の国の通貨を表示し、金額換算や国の固定で比較できます。保存済みまたは同梱レートで、オフラインでも使えます。';
 
   @override
   String get settingsTitle => '設定';

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:map_rate/features/currency/country_names.dart';
 import 'package:map_rate/features/currency/exchange_list_models.dart';
@@ -95,7 +94,9 @@ class ExchangeListPanel extends ConsumerWidget {
                                 l10n.appTitle,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.sora(
+                                // 同梱フォント Sora（通信不要）。ブランド名はラテン表記。
+                                style: TextStyle(
+                                  fontFamily: 'Sora',
                                   color: colorScheme.primary,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16,
@@ -117,7 +118,8 @@ class ExchangeListPanel extends ConsumerWidget {
                               ),
                               child: Text(
                                 versionLabel,
-                                style: GoogleFonts.sora(
+                                style: TextStyle(
+                                  fontFamily: 'Sora',
                                   color: colorScheme.primary,
                                   fontSize: 11,
                                   fontWeight: FontWeight.w600,
@@ -457,6 +459,8 @@ class _ExchangeRowTileState extends ConsumerState<_ExchangeRowTile> {
                               controller: _controller,
                               focusNode: _focusNode,
                               autofocus: true,
+                              // 金額は右寄せで揃える
+                              textAlign: TextAlign.right,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
@@ -514,9 +518,11 @@ class _ExchangeRowTileState extends ConsumerState<_ExchangeRowTile> {
                                 ),
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
-                                  alignment: Alignment.centerLeft,
+                                  // 表示も右寄せ
+                                  alignment: Alignment.centerRight,
                                   child: Text(
                                     _formatAmount(row.amount, widget.locale),
+                                    textAlign: TextAlign.right,
                                     // ellipsis にせず、縮めてでも全桁を出す
                                     softWrap: false,
                                     style: Theme.of(context)
@@ -601,21 +607,14 @@ class _ExchangeRowTileState extends ConsumerState<_ExchangeRowTile> {
         decimalDigits: 0,
       ).format(value.round());
     }
-    // 大きな桁でも丸めすぎず、必要な小数は残して全部見せる
-    final digits = value.abs() >= 1000000
-        ? 0
-        : value.abs() >= 1000
-            ? 2
-            : value.abs() >= 1
-                ? 2
-                : 6;
+    // 表示は小数点以下最大2桁まで
     return NumberFormat.decimalPatternDigits(
       locale: locale,
-      decimalDigits: digits,
+      decimalDigits: 2,
     ).format(value);
   }
 
-  /// 入力欄用。整数は小数なし。小数部があるときだけ必要な桁を出す。
+  /// 入力欄用。整数は小数なし。小数があるときも最大2桁。
   String _formatAmountForInput(double value, String locale) {
     if (!value.isFinite) return '0';
     if (_isWholeNumber(value)) {
@@ -624,17 +623,11 @@ class _ExchangeRowTileState extends ConsumerState<_ExchangeRowTile> {
         decimalDigits: 0,
       ).format(value.round());
     }
-    // 末尾の不要な 0 を付けない（例: 12.5 → "12.5"）
-    final raw = value.toStringAsFixed(6);
-    final trimmed = raw.replaceFirst(RegExp(r'\.?0+$'), '');
-    final parsed = double.tryParse(trimmed) ?? value;
-    final digits = trimmed.contains('.')
-        ? trimmed.split('.').last.length.clamp(1, 6)
-        : 0;
+    // 小数点以下は最大2桁（例: 12.5 → "12.5"、12.345 → "12.35"）
     return NumberFormat.decimalPatternDigits(
       locale: locale,
-      decimalDigits: digits,
-    ).format(parsed);
+      decimalDigits: 2,
+    ).format(value);
   }
 
   /// 浮動小数の誤差を無視して整数とみなせるか。

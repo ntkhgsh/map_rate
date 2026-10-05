@@ -26,9 +26,31 @@ class CountryBox {
     if (west > view.east || east < view.west) return false;
     return true;
   }
+
+  /// 点がこの矩形の内側（境界含む）にあるか。
+  /// 日付変更線をまたぐ矩形（west > east）にも対応する。
+  bool contains(double lat, double lng) {
+    if (lat < south || lat > north) return false;
+    if (west <= east) {
+      return lng >= west && lng <= east;
+    }
+    // 日付変更線越え：west〜180 または -180〜east
+    return lng >= west || lng <= east;
+  }
+
+  /// 面積の目安（度²）。小さいほど「狭い国」として優先する。
+  double get areaDegrees {
+    final width = west <= east ? (east - west) : ((180 - west) + (east + 180));
+    return (north - south) * width;
+  }
 }
 
-/// 国の概形中心と地図中心の距離スコア（小さいほど近い）。矩形が無い国は null。
+/// 点から国の矩形までの距離スコア（小さいほど近い）。
+///
+/// 矩形の「中心」ではなく、最も近い点までの距離を使う。
+/// 中国・ロシアのように大きな国の上に十字があるとき、中心距離だと
+/// 周辺の小国より遠と判定され、一覧から落ちるのを防ぐ。
+/// 矩形内なら 0。矩形が無い国は null。
 double? distanceScoreForCountry({
   required String countryCode,
   required double centerLat,
@@ -39,28 +61,95 @@ double? distanceScoreForCountry({
   double? best;
   for (final box in countryBoxes) {
     if (normalizeCountryCode(box.countryCode) != code) continue;
-    final boxLat = (box.north + box.south) / 2;
-    final boxLng = (box.east + box.west) / 2;
-    final dLat = boxLat - centerLat;
-    final dLng = boxLng - centerLng;
-    final score = dLat * dLat + dLng * dLng;
+    final score = _distanceScoreToBox(box, centerLat, centerLng);
     if (best == null || score < best) best = score;
   }
   return best;
 }
 
+/// 緯度経度から、含まれる国コードを返す（オフライン用）。
+///
+/// 複数の矩形に入るときは、面積が小さい方を優先する（香港 vs 中国など）。
+/// どの矩形にも入らないときは、最近接点までの距離が最も近い国を返す。
+/// 矩形表に無い場所は null。
+String? countryCodeAt({
+  required double latitude,
+  required double longitude,
+}) {
+  if (!latitude.isFinite || !longitude.isFinite) return null;
+  if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+    return null;
+  }
+
+  String? bestInside;
+  var bestInsideArea = double.infinity;
+  String? bestNear;
+  var bestNearScore = double.infinity;
+
+  for (final box in countryBoxes) {
+    final code = normalizeCountryCode(box.countryCode);
+    if (code == null || currencyForCountryCode(code) == null) continue;
+    if (box.contains(latitude, longitude)) {
+      final area = box.areaDegrees;
+      if (area < bestInsideArea) {
+        bestInsideArea = area;
+        bestInside = code;
+      }
+      continue;
+    }
+    final score = _distanceScoreToBox(box, latitude, longitude);
+    if (score < bestNearScore) {
+      bestNearScore = score;
+      bestNear = code;
+    }
+  }
+
+  // 海上など「どの矩形にも入らない」ときだけ、近い国を候補にする。
+  // ただしあまり遠い（おおよそ 3° 超）場合は不明扱い。
+  if (bestInside != null) return bestInside;
+  if (bestNear != null && bestNearScore <= 9.0) return bestNear;
+  return null;
+}
+
+/// 緯度経度から矩形の最近接点までの距離の二乗。矩形内は 0。
+double _distanceScoreToBox(CountryBox box, double lat, double lng) {
+  final nearestLat = lat.clamp(box.south, box.north);
+  final dLat = nearestLat - lat;
+  if (box.contains(lat, lng)) return dLat * dLat;
+
+  late final double nearestLng;
+  if (box.west <= box.east) {
+    nearestLng = lng.clamp(box.west, box.east);
+  } else {
+    // 日付変更線越え：左右どちらの帯に近いか選ぶ
+    final distWestSide = lng >= box.west ? 0.0 : (box.west - lng);
+    final distEastSide = lng <= box.east ? 0.0 : (lng - box.east);
+    if (distWestSide <= distEastSide) {
+      nearestLng = lng < box.west ? box.west : lng;
+    } else {
+      nearestLng = lng > box.east ? box.east : lng;
+    }
+  }
+  final dLng = nearestLng - lng;
+  return dLat * dLat + dLng * dLng;
+}
+
 /// 表示中の国コードを、重複なしで返す。
 ///
 /// [extraCountryCodes] は地図中心で分かった国など、必ず含めたいコード。
+/// [focusLat] / [focusLng] があれば十字位置で近さを測る（無いときだけ表示範囲の中心）。
 /// 画面が広すぎて国が多すぎるときは、中心に近い順に [maxCount] 件までにする。
 Set<String> visibleCountryCodes({
   required LatLngBounds view,
   Iterable<String> extraCountryCodes = const [],
+  double? focusLat,
+  double? focusLng,
   int maxCount = 12,
 }) {
   final scored = <({String code, double score})>[];
-  final centerLat = (view.north + view.south) / 2;
-  final centerLng = (view.east + view.west) / 2;
+  // 下段パネルがあるため、十字位置と表示範囲の幾何中心はずれる
+  final centerLat = focusLat ?? (view.north + view.south) / 2;
+  final centerLng = focusLng ?? (view.east + view.west) / 2;
 
   for (final box in countryBoxes) {
     if (!box.intersects(view)) continue;

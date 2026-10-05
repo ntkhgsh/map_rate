@@ -28,15 +28,16 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   /// 指が止まってから国を調べるまでの待ち時間。
   static const _resolveDelay = Duration(milliseconds: 600);
 
-  /// 下段 UI 未計測時の仮の高さ（画面比）。
+  /// 下段 UI 未計測時の仮の高さ（画面比）。広告＋為替パネル相当。
   static const _bottomUiFallbackFactor = 0.46;
 
   final MapController _mapController = MapController();
+  /// 下段 UI（広告・現在地ボタン・為替パネル）の実測用。
   final GlobalKey _bottomUiKey = GlobalKey();
   Timer? _debounce;
   var _locating = false;
 
-  /// 実測した下段（広告＋為替リスト）の高さ。地図サイズに合わせて十字を置く。
+  /// 実測した下段 UI の高さ。
   double _bottomUiHeight = 0;
 
   @override
@@ -46,16 +47,21 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     super.dispose();
   }
 
-  /// 下段 UI を避けた、見える地図領域の中央。
+  /// 十字の画面上位置。
+  ///
+  /// Y = (画面の高さ − 広告の高さ − 為替パネルの高さ) / 2
+  /// （画面上部からその距離。横は画面中央）
   Offset _computeCrosshairOffset(Size mapSize) {
     if (mapSize.width <= 0 || mapSize.height <= 0) {
       return Offset(mapSize.width / 2, mapSize.height / 2);
     }
-    final fallback = mapSize.height * _bottomUiFallbackFactor + 72;
-    final bottomUi = (_bottomUiHeight > 0 ? _bottomUiHeight : fallback)
-        .clamp(0.0, mapSize.height - 120);
-    final visibleHeight = mapSize.height - bottomUi;
-    return Offset(mapSize.width / 2, visibleHeight / 2);
+    // 未計測時は画面の約46%を「広告＋パネル」の仮高さとする
+    final fallback = mapSize.height * _bottomUiFallbackFactor;
+    final occupiedBottom = (_bottomUiHeight > 0 ? _bottomUiHeight : fallback)
+        .clamp(0.0, mapSize.height - 80);
+    // 見える地図領域の高さの半分＝十字の Y
+    final crosshairY = (mapSize.height - occupiedBottom) / 2;
+    return Offset(mapSize.width / 2, crosshairY);
   }
 
   Size _currentMapSize() {
@@ -64,7 +70,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     return MediaQuery.sizeOf(context);
   }
 
-  /// 下段パネルの実高さを測り、十字位置を地図の空き領域に合わせる。
+  /// 下段 UI の実高さを測り、十字位置を取り直す。
   void _scheduleBottomUiMeasure() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
@@ -232,10 +238,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           final mapSize = Size(constraints.maxWidth, constraints.maxHeight);
           final crosshair = _computeCrosshairOffset(mapSize);
           final keyboardOpen = MediaQuery.viewInsetsOf(context).bottom > 0;
-          // キーボードで縮んだ高さからはみ出さない上限（上部操作余白を少し残す）
+          // FAB は地図に重ねるので、下段上限からは引かない
           final maxBottomUiHeight = (mapSize.height - (keyboardOpen ? 8 : 48))
               .clamp(120.0, mapSize.height);
-
           return Stack(
             children: [
               FlutterMap(
@@ -265,6 +270,16 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     maxNativeZoom: 19,
                     keepBuffer: 2,
                     panBuffer: 1,
+                    // 一度見たタイルを長く保持し、オフラインでも表示できるようにする
+                    // （期限切れ扱いにすると通信失敗時にキャッシュへ戻れないため）
+                    tileProvider: NetworkTileProvider(
+                      silenceExceptions: true,
+                      cachingProvider:
+                          BuiltInMapCachingProvider.getOrCreateInstance(
+                        maxCacheSize: 200_000_000, // 約 200MB
+                        overrideFreshAge: const Duration(days: 30),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -349,9 +364,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                // SafeArea 込みの高さで、見える地図領域の中央に十字を置く
+                // ここだけを実測する＝広告＋現在地ボタン＋為替パネル（十字計算の分母）
                 child: ConstrainedBox(
-                  // キーボード表示時も広告＋リストが画面外へ押し出されないようにする
                   constraints: BoxConstraints(maxHeight: maxBottomUiHeight),
                   child: KeyedSubtree(
                     key: _bottomUiKey,
@@ -360,18 +374,20 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                       // Scaffold が既にキーボード分だけ持ち上げているため二重に足さない
                       bottom: !keyboardOpen,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                        // Flexible(loose) で「親の上限まで」かつ「必要な高さだけ」取る
+                        // 左右だけ。上下の余白は広告まわりをゼロに近づける
+                        padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            // 入力中は FAB・広告を隠し、キーボード用の高さを確保する
-                            if (!keyboardOpen) ...[
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: FloatingActionButton.small(
+                            // 入力中は広告・現在地を隠し、リストとキーボードのスペースを確保する
+                            // 大きな画面の横長広告と現在地ボタンが重ならないよう、同じ行に並べる
+                            if (!keyboardOpen)
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Expanded(child: MapRateBannerAd()),
+                                  const SizedBox(width: 8),
+                                  FloatingActionButton.small(
                                     heroTag: 'my_location',
                                     tooltip: l10n.myLocationTooltip,
                                     onPressed:
@@ -386,11 +402,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                                           )
                                         : const Icon(Icons.my_location),
                                   ),
-                                ),
+                                ],
                               ),
-                              const MapRateBannerAd(),
-                              const SizedBox(height: 6),
-                            ],
                             const Flexible(
                               fit: FlexFit.loose,
                               child: ExchangeListPanel(),

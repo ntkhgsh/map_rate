@@ -83,10 +83,10 @@ class MapPlaceNotifier extends Notifier<MapPlace> {
     state = MapPlace(
       latitude: latitude,
       longitude: longitude,
-      // 地点が変わった直後は、前の国を残すと誤解を招くので消す
-      countryCode: samePoint ? current.countryCode : null,
-      countryName: samePoint ? current.countryName : null,
-      currency: samePoint ? current.currency : null,
+      // 判定中も直前の国を残す。消すと一覧から一瞬落ちてチラつく
+      countryCode: current.countryCode,
+      countryName: current.countryName,
+      currency: current.currency,
       isResolving: true,
     );
 

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:map_rate/features/currency/country_geo.dart';
 import 'package:map_rate/features/currency/currency_info.dart';
 import 'package:map_rate/features/currency/map_currency_resolver.dart';
 
@@ -84,5 +85,12 @@ void main() {
     expect(flagEmojiFromCountryCode('JP'), '🇯🇵');
     expect(flagEmojiFromCountryCode('us'), '🇺🇸');
     expect(flagEmojiFromCountryCode('JPN'), isNull);
+  });
+
+  test('ジオコーダー失敗時は国矩形でオフライン判定できる', () {
+    final found = lookupFromCountryBoxes(35.68, 139.76);
+    expect(found, isNotNull);
+    expect(found!.countryCode, 'JP');
+    expect(found.currency?.code, 'JPY');
   });
 }

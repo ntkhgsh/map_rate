@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:map_rate/features/currency/country_geo.dart';
+import 'package:map_rate/features/currency/country_names.dart';
 import 'package:map_rate/features/currency/currency_info.dart';
 
 /// 緯度が -90〜90 の有限値か。
@@ -63,7 +65,9 @@ class MapCurrencyResolver {
       // Android ではジオコーダーが無い端末がある。その場合は通信しない。
       final present = await client.isPresent();
       if (!present) {
-        return const MapCurrencyFailed('geocoderUnavailable');
+        // オフライン／ジオコーダー無しでも、内蔵の国矩形で判定する
+        return lookupFromCountryBoxes(latitude, longitude) ??
+            const MapCurrencyFailed('geocoderUnavailable');
       }
 
       final placemarks = await client.placemarkFromCoordinates(
@@ -73,15 +77,38 @@ class MapCurrencyResolver {
         locale: WidgetsBinding.instance.platformDispatcher.locale,
       );
       final found = lookupFromPlacemarks(placemarks);
-      if (found == null) {
-        return const MapCurrencyFailed('countryNotFound');
-      }
-      return found;
+      if (found != null) return found;
+      // 通信不良などで国が取れないときは、内蔵矩形で補う
+      return lookupFromCountryBoxes(latitude, longitude) ??
+          const MapCurrencyFailed('countryNotFound');
     } catch (_) {
       // 例外の本文には座標が入ることがあるので、画面にもログにも出さない
-      return const MapCurrencyFailed('countryLookupFailed');
+      return lookupFromCountryBoxes(latitude, longitude) ??
+          const MapCurrencyFailed('countryLookupFailed');
     }
   }
+}
+
+/// 内蔵の国矩形から国・通貨を返す（オフライン用）。
+MapCurrencyFound? lookupFromCountryBoxes(double latitude, double longitude) {
+  final code = countryCodeAt(latitude: latitude, longitude: longitude);
+  if (code == null) return null;
+  // テストなど WidgetsBinding 未初期化のときは英語名に落とす
+  LocaleKey localeKey = LocaleKey.en;
+  try {
+    final locale = WidgetsBinding.instance.platformDispatcher.locale;
+    localeKey = fromLocale(
+      locale.languageCode,
+      locale.countryCode,
+      locale.scriptCode,
+    );
+  } catch (_) {}
+  final name = localizedCountryName(code, localeKey);
+  return MapCurrencyFound(
+    countryCode: code,
+    countryName: name.isEmpty ? null : name,
+    currency: currencyForCountryCode(code),
+  );
 }
 
 /// 逆ジオコーディングの候補から、最初の妥当な国コードを採用する。

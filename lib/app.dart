@@ -72,8 +72,11 @@ ThemeData _theme(Brightness brightness) {
     seedColor: const Color(0xFF1578B5),
     brightness: brightness,
   );
+  // 本文は同梱の Noto Sans JP（オフラインでも同じ見た目）。
+  // ブランド名「MapRate」だけ、各画面で Sora を個別指定する。
   return ThemeData(
     useMaterial3: true,
     colorScheme: colorScheme,
+    fontFamily: 'NotoSansJP',
   );
 }
