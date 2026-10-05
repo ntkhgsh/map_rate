@@ -1,11 +1,24 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- 地図タイル・為替・広告の通信 -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- AdMob がネットワーク状態を見て配信判断するために推奨 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!-- 現在地へ地図を移動する機能 -->
+    <!-- 現在地へ地図を移動する機能（アプリ操作中の一回取得のみ） -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <!--
+      geolocator が混ぜる権限。MapRate は画面オフでの継続測位をしないため削除する。
+      （Play Console の FOREGROUND_SERVICE_LOCATION 申告が不要になる）
+    -->
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE"
+        tools:node="remove"/>
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE_LOCATION"
+        tools:node="remove"/>
+
     <application
         android:label="MapRate"
         android:name="${applicationName}"
@@ -41,6 +54,11 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <!-- バックグラウンド位置のフォアグラウンドサービスは使わない -->
+        <service
+            android:name="com.baseflow.geolocator.GeolocatorLocationService"
+            tools:node="remove"/>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

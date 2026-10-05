@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.1 (2026-10-06)
+
+### 日本語
+- 使っていない `FOREGROUND_SERVICE_LOCATION` 権限を削除（現在地はアプリ操作中の一回取得のみ）
+
+### English
+- Removed unused `FOREGROUND_SERVICE_LOCATION` permission (location is a one-shot, in-app request only)
+
 ## 1.2.0 (2026-10-06)
 
 ### 日本語
