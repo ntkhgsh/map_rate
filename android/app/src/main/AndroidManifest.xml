@@ -9,14 +9,20 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <!--
-      geolocator が混ぜる権限。MapRate は画面オフでの継続測位をしないため削除する。
-      （Play Console の FOREGROUND_SERVICE_LOCATION 申告が不要になる）
+      ライブラリが混ぜるフォアグラウンドサービス権限。
+      MapRate は画面オフでの継続測位・長時間 FGS を使わないためすべて削除する。
     -->
     <uses-permission
         android:name="android.permission.FOREGROUND_SERVICE"
         tools:node="remove"/>
     <uses-permission
         android:name="android.permission.FOREGROUND_SERVICE_LOCATION"
+        tools:node="remove"/>
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"
+        tools:node="remove"/>
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"
         tools:node="remove"/>
 
     <application
@@ -55,9 +61,12 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <!-- バックグラウンド位置のフォアグラウンドサービスは使わない -->
+        <!-- ライブラリ同梱のフォアグラウンドサービスは使わないので除去 -->
         <service
             android:name="com.baseflow.geolocator.GeolocatorLocationService"
+            tools:node="remove"/>
+        <service
+            android:name="androidx.work.impl.foreground.SystemForegroundService"
             tools:node="remove"/>
     </application>
     <!-- Required to query activities that can process text, see:

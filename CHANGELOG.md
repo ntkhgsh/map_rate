@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.2 (2026-10-06)
+
+### 日本語
+- フォアグラウンドサービス関連の権限・サービス定義を追加で除去（Play 申告エラー対応）
+
+### English
+- Further removed foreground-service permissions and service declarations (Play Console)
+
 ## 1.2.1 (2026-10-06)
 
 ### 日本語
