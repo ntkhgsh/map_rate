@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.5 (2026-10-07)
+
+### 日本語
+- versionCode を 9 に更新（Play で 8 が使用済みのため）
+
+### English
+- Bump versionCode to 9 (code 8 already used on Play)
+
 ## 1.2.4 (2026-10-07)
 
 ### 日本語
