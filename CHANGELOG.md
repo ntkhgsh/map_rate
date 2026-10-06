@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.7 (2026-10-07)
+
+### 日本語
+- 起動直後に落ちる不具合を修正（AdMob/WorkManager 用サービスの誤除去を取り消し）
+- 位置のフォアグラウンドサービス権限は引き続き含めない
+
+### English
+- Fix immediate quit on launch (restore WorkManager service needed by AdMob)
+- Still omit foreground location service permission
+
 ## 1.2.6 (2026-10-07)
 
 ### 日本語

@@ -61,12 +61,12 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <!-- ライブラリ同梱のフォアグラウンドサービスは使わないので除去 -->
+        <!--
+          位置の継続測位用サービスだけ除去（現在地は一回取得のみ）。
+          WorkManager の SystemForegroundService は AdMob 初期化で必要なので残す。
+        -->
         <service
             android:name="com.baseflow.geolocator.GeolocatorLocationService"
-            tools:node="remove"/>
-        <service
-            android:name="androidx.work.impl.foreground.SystemForegroundService"
             tools:node="remove"/>
     </application>
     <!-- Required to query activities that can process text, see:

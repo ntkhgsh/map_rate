@@ -77,21 +77,26 @@ class _MapRateBannerAdState extends State<MapRateBannerAd> {
 
   /// 親の実幅に合う広告サイズを選ぶ。
   Future<AdSize> _resolveAdSize(int width) async {
-    // 広い画面：親幅いっぱいの大きいアダプティブバナー
-    if (width >= _largeAdMinWidth) {
-      final adaptive =
-          await AdSize.getLargeAnchoredAdaptiveBannerAdSize(width);
-      if (adaptive != null) return adaptive;
-      // 取得できないときの固定サイズの控え
-      if (width >= 728) return AdSize.leaderboard;
-      return AdSize.fullBanner;
-    }
+    try {
+      // 広い画面：親幅いっぱいの大きいアダプティブバナー
+      if (width >= _largeAdMinWidth) {
+        final adaptive =
+            await AdSize.getLargeAnchoredAdaptiveBannerAdSize(width);
+        if (adaptive != null) return adaptive;
+        // 取得できないときの固定サイズの控え
+        if (width >= 728) return AdSize.leaderboard;
+        return AdSize.fullBanner;
+      }
 
-    // 現在地ボタン分で 320 未満になることがあるので、狭いときも幅に合わせる
-    if (width < AdSize.banner.width) {
-      final adaptive =
-          await AdSize.getLargeAnchoredAdaptiveBannerAdSize(width);
-      if (adaptive != null) return adaptive;
+      // 現在地ボタン分で 320 未満になることがあるので、狭いときも幅に合わせる
+      if (width < AdSize.banner.width) {
+        final adaptive =
+            await AdSize.getLargeAnchoredAdaptiveBannerAdSize(width);
+        if (adaptive != null) return adaptive;
+      }
+    } catch (error) {
+      // 端末側でサイズ取得に失敗しても、固定バナーで表示を続ける
+      debugPrint('MapRate BannerAd size resolve failed: $error');
     }
     return AdSize.banner;
   }

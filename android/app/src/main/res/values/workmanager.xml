@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- AdMob 経由の WorkManager。フォアグラウンドサービスは使わない -->
-    <bool name="enable_system_foreground_service_default">false</bool>
-</resources>
