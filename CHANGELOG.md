@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.3 (2026-10-07)
+
+### 日本語
+- versionCode を 7 に更新（Play で既に使われている 6 との衝突を回避）
+- フォアグラウンド位置サービス権限を含まないビルドを再提出
+
+### English
+- Bump versionCode to 7 (avoids conflict with already-used code 6 on Play)
+- Resubmit a build without foreground location service permissions
+
 ## 1.2.2 (2026-10-06)
 
 ### 日本語
