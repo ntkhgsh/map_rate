@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.6 (2026-10-07)
+
+### 日本語
+- クローズドテスト提出用の versionCode 更新（フォアグラウンド位置権限なし）
+
+### English
+- Bump versionCode for closed testing submission (no foreground location permission)
+
 ## 1.2.5 (2026-10-07)
 
 ### 日本語
