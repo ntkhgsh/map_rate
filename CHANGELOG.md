@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.4 (2026-10-07)
+
+### 日本語
+- 内部テストの古いビルドを上書きするための versionCode 更新（フォアグラウンド位置権限なし）
+
+### English
+- Bump versionCode to overwrite the internal testing track (no foreground location permission)
+
 ## 1.2.3 (2026-10-07)
 
 ### 日本語
