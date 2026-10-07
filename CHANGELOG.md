@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.10 (2026-10-07)
+
+### 日本語
+- versionCode を 14 に更新（Play で 12 が使用済みのため）
+- タイトル横の版表示をパッチ番号に変更（例: 1.2.10 → v10）
+
+### English
+- Bump versionCode to 14 (code 12 already used on Play)
+- Show patch number beside the title (e.g. 1.2.10 → v10)
+
 ## 1.2.9 (2026-10-07)
 
 ### 日本語

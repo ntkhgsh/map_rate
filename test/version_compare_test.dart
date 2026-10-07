@@ -10,11 +10,12 @@ void main() {
     expect(compareVersions('2.0.0+3', '2.0.0+1'), 0);
   });
 
-  test('タイトル用の短い版表示', () {
+  test('タイトル用の短い版表示はパッチ番号', () {
     expect(formatDisplayVersion('0.0.1'), 'v1');
     expect(formatDisplayVersion('0.0.2'), 'v2');
-    expect(formatDisplayVersion('1.0.0'), 'v1');
-    expect(formatDisplayVersion('0.3.1'), 'v3');
-    expect(formatDisplayVersion('2.4.0+9'), 'v2');
+    expect(formatDisplayVersion('1.2.9'), 'v9');
+    expect(formatDisplayVersion('1.2.10'), 'v10');
+    expect(formatDisplayVersion('1.2.0'), 'v0');
+    expect(formatDisplayVersion('2.4.0+9'), 'v0');
   });
 }

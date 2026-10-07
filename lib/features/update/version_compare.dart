@@ -16,14 +16,12 @@ int compareVersions(String a, String b) {
 
 /// タイトル横用の短い版表示。
 ///
-/// 例: `0.0.1` → `v1`、`1.2.0` → `v1`、`0.3.2` → `v3`
+/// パッチ番号を出す（例: `1.2.9` → `v9`、`1.2.10` → `v10`、`0.0.1` → `v1`）。
 String formatDisplayVersion(String version) {
   final parts = _parse(version);
-  final major = parts.isNotEmpty ? parts[0] : 0;
-  final minor = parts.length > 1 ? parts[1] : 0;
-  final patch = parts.length > 2 ? parts[2] : 0;
-  if (major > 0) return 'v$major';
-  if (minor > 0) return 'v$minor';
+  final patch = parts.length > 2
+      ? parts[2]
+      : (parts.length > 1 ? parts[1] : (parts.isNotEmpty ? parts[0] : 0));
   return 'v$patch';
 }
 
