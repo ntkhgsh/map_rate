@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.8 (2026-10-07)
+
+### 日本語
+- 起動クラッシュ修正：リリースのコード縮小（R8）を無効化し、WorkManager 初期化失敗を防止
+
+### English
+- Fix launch crash: disable release R8 minify that broke WorkManager database init
+
 ## 1.2.7 (2026-10-07)
 
 ### 日本語

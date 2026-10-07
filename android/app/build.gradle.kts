@@ -53,6 +53,23 @@ android {
                 // ローカル確認用。Play 提出には key.properties が必要
                 signingConfigs.getByName("debug")
             }
+            // Flutter 既定の minify だと WorkManager の Room DB 生成で起動クラッシュすることがある
+            isMinifyEnabled = false
+            isShrinkResources = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
+        }
+    }
+}
+
+// Flutter Gradle Plugin が release の minify を後から true に戻すため、確定後に再度オフにする
+afterEvaluate {
+    extensions.configure<com.android.build.gradle.AppExtension>("android") {
+        buildTypes.getByName("release").apply {
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }
