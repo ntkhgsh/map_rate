@@ -23,6 +23,8 @@ class _MapRateBannerAdState extends State<MapRateBannerAd> {
   var _isLoaded = false;
   var _retryCount = 0;
   var _loadToken = 0;
+  /// 再試行上限まで失敗したとき true（「読み込み中」を出し続けない）
+  var _loadGaveUp = false;
 
   /// 失敗時の再試行上限（無限ループを防ぐ）
   static const _maxRetries = 3;
@@ -72,6 +74,7 @@ class _MapRateBannerAdState extends State<MapRateBannerAd> {
     _pendingWidth = width;
     _pendingSize = size;
     _retryCount = 0;
+    _loadGaveUp = false;
     await _loadAd(size);
   }
 
@@ -109,6 +112,12 @@ class _MapRateBannerAdState extends State<MapRateBannerAd> {
     previous?.dispose();
     if (mounted) setState(() {});
 
+    // main で待たずに初期化しているので、読み込み直前にも一度呼ぶ（多重呼び出し可）
+    try {
+      await MobileAds.instance.initialize();
+    } catch (_) {}
+    if (!mounted || token != _loadToken) return;
+
     final banner = BannerAd(
       adUnitId: _adUnitId,
       request: const AdRequest(),
@@ -125,6 +134,7 @@ class _MapRateBannerAdState extends State<MapRateBannerAd> {
           setState(() {
             _bannerAd = ad as BannerAd;
             _isLoaded = true;
+            _loadGaveUp = false;
             _pendingSize = size;
           });
         },
@@ -135,14 +145,22 @@ class _MapRateBannerAdState extends State<MapRateBannerAd> {
           );
           ad.dispose();
           if (!mounted || token != _loadToken) return;
+          if (_retryCount >= _maxRetries) {
+            // 上限まで失敗したら枠を畳む（読み込み中のまま残さない）
+            setState(() {
+              _bannerAd = null;
+              _isLoaded = false;
+              _loadGaveUp = true;
+            });
+            return;
+          }
+          _retryCount += 1;
           setState(() {
             _bannerAd = null;
             _isLoaded = false;
           });
-          if (_retryCount >= _maxRetries) return;
-          _retryCount += 1;
           Future<void>.delayed(const Duration(seconds: 5), () {
-            if (mounted && !_isLoaded && token == _loadToken) {
+            if (mounted && !_isLoaded && !_loadGaveUp && token == _loadToken) {
               unawaited(_loadAd(size));
             }
           });
@@ -175,6 +193,11 @@ class _MapRateBannerAdState extends State<MapRateBannerAd> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) unawaited(_ensureAdForWidth(maxWidth));
         });
+
+        // 読み込み失敗で諦めたときは高さを 0 にして地図を広く使う
+        if (_loadGaveUp && !_isLoaded) {
+          return const SizedBox.shrink();
+        }
 
         final height = (_isLoaded && _bannerAd != null)
             ? _bannerAd!.size.height.toDouble()

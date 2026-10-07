@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.9 (2026-10-07)
+
+### 日本語
+- 起動を高速化（AdMob 初期化を画面表示後に回し、起動待ちを短縮）
+- 広告の読み込み失敗時に「読み込み中」が残らないよう表示を改善
+
+### English
+- Faster cold start by initializing AdMob after the UI is shown
+- Hide the stuck “Loading ad…” state after banner load retries are exhausted
+
 ## 1.2.8 (2026-10-07)
 
 ### 日本語
