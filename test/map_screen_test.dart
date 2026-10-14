@@ -14,6 +14,7 @@ class _FakeExchangeRateApi extends ExchangeRateApi {
   Future<ExchangeRateSnapshot> fetchForCurrencies(
     Iterable<String> currencyCodes, {
     CancelToken? cancelToken,
+    String rateSource = rateSourceAuto,
   }) async {
     return ExchangeRateSnapshot(
       ratesPerUsd: const {
@@ -65,10 +66,7 @@ void main() {
     await tester.pump();
 
     // テスト環境ではジオコーダーが無いので、失敗メッセージかヒントが出る
-    expect(
-      find.textContaining('国'),
-      findsWidgets,
-    );
+    expect(find.textContaining('国'), findsWidgets);
   });
 
   testWidgets('英語ロケールで文言が切り替わる', (tester) async {

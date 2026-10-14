@@ -206,4 +206,23 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get showExchangeList => 'Kurse anzeigen';
+
+  @override
+  String get rateSourceTitle => 'Berechnungsmethode';
+
+  @override
+  String get rateSourceBody =>
+      'Beträge werden mit dem Mittelkurs der gewählten Quelle berechnet. Automatisch fragt zuerst ExchangeRate-API, dann den CDN-Feed und dann Frankfurter ab und nimmt die erste Antwort. Antwortet keine, werden gespeicherte oder mitgelieferte Kurse verwendet.';
+
+  @override
+  String get rateSourceAuto => 'Automatisch (erste Antwort)';
+
+  @override
+  String get rateSourceOpenEr => 'ExchangeRate-API';
+
+  @override
+  String get rateSourceCdn => 'CDN (currency-api)';
+
+  @override
+  String get rateSourceFrankfurter => 'Frankfurter';
 }

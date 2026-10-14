@@ -116,5 +116,11 @@
   "updateUpToDate": "You are on the latest version",
   "updateCheckFailed": "Could not check for updates",
   "hideExchangeList": "Hide rates",
-  "showExchangeList": "Show rates"
+  "showExchangeList": "Show rates",
+  "rateSourceTitle": "Calculation method",
+  "rateSourceBody": "Amounts use the mid-market rate from the source you choose. Automatic tries ExchangeRate-API, then the CDN feed, then Frankfurter, and uses the first that responds. If it does not respond, saved or bundled rates are used.",
+  "rateSourceAuto": "Automatic (first that responds)",
+  "rateSourceOpenEr": "ExchangeRate-API",
+  "rateSourceCdn": "CDN (currency-api)",
+  "rateSourceFrankfurter": "Frankfurter"
 }

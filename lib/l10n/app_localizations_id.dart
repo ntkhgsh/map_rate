@@ -206,4 +206,23 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get showExchangeList => 'Tampilkan kurs';
+
+  @override
+  String get rateSourceTitle => 'Metode perhitungan';
+
+  @override
+  String get rateSourceBody =>
+      'Jumlah dihitung dari kurs tengah sumber yang dipilih. Otomatis mencoba ExchangeRate-API, lalu CDN, lalu Frankfurter, dan memakai yang pertama menjawab. Jika tidak menjawab, kurs tersimpan atau bawaan dipakai.';
+
+  @override
+  String get rateSourceAuto => 'Otomatis (yang pertama menjawab)';
+
+  @override
+  String get rateSourceOpenEr => 'ExchangeRate-API';
+
+  @override
+  String get rateSourceCdn => 'CDN (currency-api)';
+
+  @override
+  String get rateSourceFrankfurter => 'Frankfurter';
 }

@@ -51,9 +51,9 @@ class ExchangeListPanel extends ConsumerWidget {
         final maxHeight = collapsed
             ? 56.0
             : keyboardOpen
-                // 入力中は親の上限いっぱい（広告・FABは親側で非表示）
-                ? available
-                : available.clamp(80.0, preferred);
+            // 入力中は親の上限いっぱい（広告・FABは親側で非表示）
+            ? available
+            : available.clamp(80.0, preferred);
 
         return Material(
           elevation: 3,
@@ -82,10 +82,10 @@ class ExchangeListPanel extends ConsumerWidget {
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) =>
                                     Icon(
-                                  Icons.map_rounded,
-                                  size: 28,
-                                  color: colorScheme.primary,
-                                ),
+                                      Icons.map_rounded,
+                                      size: 28,
+                                      color: colorScheme.primary,
+                                    ),
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -112,8 +112,9 @@ class ExchangeListPanel extends ConsumerWidget {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: colorScheme.primary
-                                    .withValues(alpha: 0.12),
+                                color: colorScheme.primary.withValues(
+                                  alpha: 0.12,
+                                ),
                                 borderRadius: BorderRadius.circular(999),
                               ),
                               child: Text(
@@ -157,8 +158,8 @@ class ExchangeListPanel extends ConsumerWidget {
                         onPressed: state.isLoading
                             ? null
                             : () => ref
-                                .read(exchangeListProvider.notifier)
-                                .refreshRates(),
+                                  .read(exchangeListProvider.notifier)
+                                  .refreshRates(),
                         icon: const Icon(Icons.refresh, size: 20),
                       ),
                       // 為替リストの表示／非表示
@@ -188,6 +189,9 @@ class ExchangeListPanel extends ConsumerWidget {
                     child: Text(
                       [
                         _updateLine(l10n, state, localeTag),
+                        // いまの計算に使っている出典名（設定で選んだ結果）
+                        if (state.sourceName != 'offline seed')
+                          _activeSourceLabel(l10n, state.sourceName),
                         if (state.sourceName == 'offline seed')
                           l10n.offlineSeedHint
                         else if (state.errorKey == 'ratesLoadFailed')
@@ -196,11 +200,12 @@ class ExchangeListPanel extends ConsumerWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: state.errorKey != null ||
-                                    state.sourceName == 'offline seed'
-                                ? colorScheme.error
-                                : null,
-                          ),
+                        color:
+                            state.errorKey != null ||
+                                state.sourceName == 'offline seed'
+                            ? colorScheme.error
+                            : null,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -264,6 +269,20 @@ class ExchangeListPanel extends ConsumerWidget {
   }
 }
 
+/// 取得結果の出典名を、設定と同じ文言にする。知らない名前は出さない。
+String _activeSourceLabel(AppLocalizations l10n, String sourceName) {
+  switch (sourceName) {
+    case 'ExchangeRate-API':
+      return l10n.rateSourceOpenEr;
+    case 'currency-api':
+      return l10n.rateSourceCdn;
+    case 'Frankfurter':
+      return l10n.rateSourceFrankfurter;
+    default:
+      return '';
+  }
+}
+
 class _ExchangeRowTile extends ConsumerStatefulWidget {
   const _ExchangeRowTile({
     super.key,
@@ -312,7 +331,9 @@ class _ExchangeRowTileState extends ConsumerState<_ExchangeRowTile> {
     final parsed = _parseAmount(_controller.text);
     if (parsed != null) {
       unawaited(
-        ref.read(exchangeListProvider.notifier).setAmountForCountry(
+        ref
+            .read(exchangeListProvider.notifier)
+            .setAmountForCountry(
               countryCode: widget.row.countryCode,
               amount: parsed,
             ),
@@ -365,8 +386,9 @@ class _ExchangeRowTileState extends ConsumerState<_ExchangeRowTile> {
   void _beginEditing() {
     final row = widget.row;
     // 入力欄は整数なら小数なし。小数を使うときだけ小数を出す
-    _controller.text =
-        row.hasRate ? _formatAmountForInput(row.amount, widget.locale) : '';
+    _controller.text = row.hasRate
+        ? _formatAmountForInput(row.amount, widget.locale)
+        : '';
     _controller.selection = TextSelection(
       baseOffset: 0,
       extentOffset: _controller.text.length,
@@ -383,8 +405,7 @@ class _ExchangeRowTileState extends ConsumerState<_ExchangeRowTile> {
     final l10n = AppLocalizations.of(context);
     final row = widget.row;
     final colorScheme = Theme.of(context).colorScheme;
-    final countryName =
-        localizedCountryName(row.countryCode, widget.localeKey);
+    final countryName = localizedCountryName(row.countryCode, widget.localeKey);
 
     final isBase = row.isBaseInput;
 
@@ -413,9 +434,8 @@ class _ExchangeRowTileState extends ConsumerState<_ExchangeRowTile> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          fontWeight:
-                              isBase ? FontWeight.w700 : FontWeight.w500,
-                        ),
+                      fontWeight: isBase ? FontWeight.w700 : FontWeight.w500,
+                    ),
                   ),
                   Row(
                     children: [
@@ -424,19 +444,15 @@ class _ExchangeRowTileState extends ConsumerState<_ExchangeRowTile> {
                           row.currency.code,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style:
-                              Theme.of(context).textTheme.labelSmall?.copyWith(
-                                    color: colorScheme.onSurfaceVariant,
-                                  ),
+                          style: Theme.of(context).textTheme.labelSmall
+                              ?.copyWith(color: colorScheme.onSurfaceVariant),
                         ),
                       ),
                       if (isBase) ...[
                         const SizedBox(width: 4),
                         Text(
                           l10n.baseInputLabel,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall
+                          style: Theme.of(context).textTheme.labelSmall
                               ?.copyWith(
                                 color: colorScheme.primary,
                                 fontWeight: FontWeight.w700,
@@ -461,9 +477,7 @@ class _ExchangeRowTileState extends ConsumerState<_ExchangeRowTile> {
                               autofocus: true,
                               // 金額は右寄せで揃える
                               textAlign: TextAlign.right,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
+                              style: Theme.of(context).textTheme.bodyLarge
                                   ?.copyWith(
                                     fontWeight: isBase
                                         ? FontWeight.w700
@@ -471,8 +485,8 @@ class _ExchangeRowTileState extends ConsumerState<_ExchangeRowTile> {
                                   ),
                               keyboardType:
                                   const TextInputType.numberWithOptions(
-                                decimal: true,
-                              ),
+                                    decimal: true,
+                                  ),
                               // 長い数値も横スクロールで全部見える
                               scrollPhysics: const BouncingScrollPhysics(),
                               scrollPadding: const EdgeInsets.only(
@@ -525,9 +539,7 @@ class _ExchangeRowTileState extends ConsumerState<_ExchangeRowTile> {
                                     textAlign: TextAlign.right,
                                     // ellipsis にせず、縮めてでも全桁を出す
                                     softWrap: false,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
+                                    style: Theme.of(context).textTheme.bodyLarge
                                         ?.copyWith(
                                           fontWeight: isBase
                                               ? FontWeight.w700

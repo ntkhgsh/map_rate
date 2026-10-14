@@ -102,5 +102,11 @@
   "updateUpToDate": "Você está na versão mais recente",
   "updateCheckFailed": "Não foi possível verificar atualizações",
   "hideExchangeList": "Ocultar cotações",
-  "showExchangeList": "Mostrar cotações"
+  "showExchangeList": "Mostrar cotações",
+  "rateSourceTitle": "Método de cálculo",
+  "rateSourceBody": "Os valores são calculados com a taxa média da fonte escolhida. Automático tenta ExchangeRate-API, depois o CDN e depois o Frankfurter, e usa a primeira que responder. Se não responder, usam-se taxas salvas ou incluídas.",
+  "rateSourceAuto": "Automático (a primeira que responder)",
+  "rateSourceOpenEr": "ExchangeRate-API",
+  "rateSourceCdn": "CDN (currency-api)",
+  "rateSourceFrankfurter": "Frankfurter"
 }

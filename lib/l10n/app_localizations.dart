@@ -463,6 +463,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show rates'**
   String get showExchangeList;
+
+  /// No description provided for @rateSourceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculation method'**
+  String get rateSourceTitle;
+
+  /// No description provided for @rateSourceBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Amounts use the mid-market rate from the source you choose. Automatic tries ExchangeRate-API, then the CDN feed, then Frankfurter, and uses the first that responds. If it does not respond, saved or bundled rates are used.'**
+  String get rateSourceBody;
+
+  /// No description provided for @rateSourceAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic (first that responds)'**
+  String get rateSourceAuto;
+
+  /// No description provided for @rateSourceOpenEr.
+  ///
+  /// In en, this message translates to:
+  /// **'ExchangeRate-API'**
+  String get rateSourceOpenEr;
+
+  /// No description provided for @rateSourceCdn.
+  ///
+  /// In en, this message translates to:
+  /// **'CDN (currency-api)'**
+  String get rateSourceCdn;
+
+  /// No description provided for @rateSourceFrankfurter.
+  ///
+  /// In en, this message translates to:
+  /// **'Frankfurter'**
+  String get rateSourceFrankfurter;
 }
 
 class _AppLocalizationsDelegate

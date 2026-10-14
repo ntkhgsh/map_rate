@@ -206,4 +206,23 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get showExchangeList => 'Mostrar tipos';
+
+  @override
+  String get rateSourceTitle => 'Método de cálculo';
+
+  @override
+  String get rateSourceBody =>
+      'Los importes se calculan con el tipo medio de la fuente elegida. Automático prueba ExchangeRate-API, luego el CDN y luego Frankfurter, y usa la primera que responda. Si no responde, se usan tipos guardados o incluidos.';
+
+  @override
+  String get rateSourceAuto => 'Automático (la primera que responda)';
+
+  @override
+  String get rateSourceOpenEr => 'ExchangeRate-API';
+
+  @override
+  String get rateSourceCdn => 'CDN (currency-api)';
+
+  @override
+  String get rateSourceFrankfurter => 'Frankfurter';
 }

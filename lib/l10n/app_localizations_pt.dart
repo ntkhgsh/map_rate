@@ -207,6 +207,25 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get showExchangeList => 'Mostrar taxas';
+
+  @override
+  String get rateSourceTitle => 'Método de cálculo';
+
+  @override
+  String get rateSourceBody =>
+      'Os montantes são calculados com a taxa média da fonte escolhida. Automático tenta ExchangeRate-API, depois o CDN e depois o Frankfurter, e usa a primeira que responder. Se não responder, usam-se taxas guardadas ou incluídas.';
+
+  @override
+  String get rateSourceAuto => 'Automático (a primeira que responder)';
+
+  @override
+  String get rateSourceOpenEr => 'ExchangeRate-API';
+
+  @override
+  String get rateSourceCdn => 'CDN (currency-api)';
+
+  @override
+  String get rateSourceFrankfurter => 'Frankfurter';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -411,4 +430,23 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get showExchangeList => 'Mostrar cotações';
+
+  @override
+  String get rateSourceTitle => 'Método de cálculo';
+
+  @override
+  String get rateSourceBody =>
+      'Os valores são calculados com a taxa média da fonte escolhida. Automático tenta ExchangeRate-API, depois o CDN e depois o Frankfurter, e usa a primeira que responder. Se não responder, usam-se taxas salvas ou incluídas.';
+
+  @override
+  String get rateSourceAuto => 'Automático (a primeira que responder)';
+
+  @override
+  String get rateSourceOpenEr => 'ExchangeRate-API';
+
+  @override
+  String get rateSourceCdn => 'CDN (currency-api)';
+
+  @override
+  String get rateSourceFrankfurter => 'Frankfurter';
 }

@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.2.11 (2026-10-14)
+
+### 日本語
+- 設定で計算方法（レートの出典）を選べるようにした
+- 自動は ExchangeRate-API、CDN、Frankfurter の順で、最初に届いた中値を使う
+- 出典を指定したときはそのレートだけを使い、届かないときは保存済みまたは同梱レートを表示する
+- 為替リストに、実際に使っている出典名を表示する
+- versionCode を 15 に更新
+
+### English
+- Choose the calculation method (rate source) in Settings
+- Automatic uses the first mid-market rate that responds: ExchangeRate-API, then the CDN feed, then Frankfurter
+- A chosen source is used on its own; if it does not respond, saved or bundled rates are shown
+- The rate list shows which source is actually in use
+- Bump versionCode to 15
+
 ## 1.2.10 (2026-10-07)
 
 ### 日本語

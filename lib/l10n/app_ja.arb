@@ -102,5 +102,11 @@
   "updateUpToDate": "最新バージョンです",
   "updateCheckFailed": "アップデートを確認できませんでした",
   "hideExchangeList": "為替リストを隠す",
-  "showExchangeList": "為替リストを表示"
+  "showExchangeList": "為替リストを表示",
+  "rateSourceTitle": "計算方法",
+  "rateSourceBody": "金額は、選んだ出典の中値レートで計算します。自動は ExchangeRate-API、CDN、Frankfurter の順で、最初に届いたものを使います。届かないときは、保存済みまたは同梱レートを使います。",
+  "rateSourceAuto": "自動（届いた順）",
+  "rateSourceOpenEr": "ExchangeRate-API",
+  "rateSourceCdn": "CDN（currency-api）",
+  "rateSourceFrankfurter": "Frankfurter"
 }

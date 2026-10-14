@@ -9,19 +9,18 @@ import 'package:map_rate/features/currency/exchange_list_models.dart';
 import 'package:map_rate/features/currency/exchange_prefs.dart';
 import 'package:map_rate/features/currency/exchange_rate_api.dart';
 import 'package:map_rate/features/map/map_place_provider.dart';
+import 'package:map_rate/features/settings/app_settings_provider.dart';
 
 final exchangeRateApiProvider = Provider<ExchangeRateApi>(
   (ref) => ExchangeRateApi(),
 );
 
-final exchangePrefsProvider = Provider<ExchangePrefs>(
-  (ref) => ExchangePrefs(),
-);
+final exchangePrefsProvider = Provider<ExchangePrefs>((ref) => ExchangePrefs());
 
 final exchangeListProvider =
     NotifierProvider<ExchangeListNotifier, ExchangeListState>(
-  ExchangeListNotifier.new,
-);
+      ExchangeListNotifier.new,
+    );
 
 class ExchangeListNotifier extends Notifier<ExchangeListState> {
   late final ExchangeRateApi _api;
@@ -43,6 +42,14 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
       _baseSaveTimer?.cancel();
       _ratesCancel?.cancel();
       _requestId++;
+    });
+    // 設定で計算方法を変えたら、その出典で取り直す
+    ref.listen(appSettingsProvider.select((settings) => settings.rateSource), (
+      previous,
+      next,
+    ) {
+      if (previous == next) return;
+      unawaited(refreshRates());
     });
     // 保存済みの順番・固定・金額を読み、可能ならキャッシュレートも戻す
     Future.microtask(_loadPrefs);
@@ -80,7 +87,10 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
     // 地図の中心国が分かっていれば、可視化に含める
     final place = ref.read(mapPlaceProvider);
     if (_lastBounds != null) {
-      await setVisibleBounds(_lastBounds!, centerCountryCode: place.countryCode);
+      await setVisibleBounds(
+        _lastBounds!,
+        centerCountryCode: place.countryCode,
+      );
     } else if (place.countryCode != null) {
       await setVisibleCountries({place.countryCode!});
     } else {
@@ -141,10 +151,7 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
       // 十字位置で近さを測る（大きな国の沿岸で一覧から落ちるのを防ぐ）
       focusLat: centerLat,
       focusLng: centerLng,
-      extraCountryCodes: [
-        ?centerCountryCode,
-        ?state.focusCountryCode,
-      ],
+      extraCountryCodes: [?centerCountryCode, ?state.focusCountryCode],
     );
     await setVisibleCountries(
       codes,
@@ -169,17 +176,14 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
       }
     }
     // 引数の focus が無いときも、直前の十字下の国は一覧に残す
-    final focus = normalizeCountryCode(focusCountryCode) ??
+    final focus =
+        normalizeCountryCode(focusCountryCode) ??
         normalizeCountryCode(state.focusCountryCode);
     if (focus != null && currencyForCountryCode(focus) != null) {
       normalized.add(focus);
     }
     // 固定国と十字下の国は、表示件数の上限対象外でも残す
-    final eligible = {
-      ...normalized,
-      ...state.pinned,
-      if (focus != null) focus,
-    };
+    final eligible = {...normalized, ...state.pinned, if (focus != null) focus};
     final next = _rebuildRows(
       state.copyWith(
         visibleCountryCodes: normalized,
@@ -199,7 +203,8 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
     currencies.add('USD');
 
     // 同じ通貨セットで、すでにレートがあるなら取り直さない（地図操作の連打対策）
-    final sameSet = currencies.length == _lastFetchedCurrencies.length &&
+    final sameSet =
+        currencies.length == _lastFetchedCurrencies.length &&
         currencies.every(_lastFetchedCurrencies.contains);
     if (sameSet && state.ratesPerUsd.length > 1 && state.errorKey == null) {
       return;
@@ -232,9 +237,14 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
     state = state.copyWith(isLoading: true, clearError: true);
 
     try {
+      // 設定で選んだ出典だけを使う（不正な保存値は自動に戻る）
+      final rateSource = normalizeRateSource(
+        ref.read(appSettingsProvider).rateSource,
+      );
       final snapshot = await _api.fetchForCurrencies(
         currencies,
         cancelToken: cancelToken,
+        rateSource: rateSource,
       );
       if (!ref.mounted || requestId != _requestId) return;
 
@@ -242,23 +252,25 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
 
       // オンライン取得に失敗して同梱シードになったとき、
       // 端末に残っている前回レートの方が新しければ、そちらを優先する（オフライン利用）
-      final hasCachedRates = state.ratesPerUsd.length > 1 &&
-          state.sourceName != 'offline seed';
+      final hasCachedRates =
+          state.ratesPerUsd.length > 1 && state.sourceName != 'offline seed';
       if (snapshot.isOfflineSeed && hasCachedRates) {
         state = _rebuildRows(
-          state.copyWith(
-            isLoading: false,
-            errorKey: 'ratesLoadFailed',
-          ),
+          state.copyWith(isLoading: false, errorKey: 'ratesLoadFailed'),
         );
         return;
       }
 
-      // 既存レートにマージ（取得できなかった通貨は古い値を残す）
-      final mergedRates = Map<String, double>.from(state.ratesPerUsd)
-        ..addAll(snapshot.ratesPerUsd);
-      final mergedHistory = Map<String, List<double>>.from(state.historyPerUsd)
-        ..addAll(snapshot.historyPerUsd);
+      // 自動は、取れなかった通貨の前回値を残す。
+      // 出典を指定したときは、その出典のレートだけにする（他の出典の残りを混ぜない）。
+      final mergedRates = rateSource == rateSourceAuto
+          ? (Map<String, double>.from(state.ratesPerUsd)
+              ..addAll(snapshot.ratesPerUsd))
+          : Map<String, double>.from(snapshot.ratesPerUsd);
+      final mergedHistory = rateSource == rateSourceAuto
+          ? (Map<String, List<double>>.from(state.historyPerUsd)
+              ..addAll(snapshot.historyPerUsd))
+          : Map<String, List<double>>.from(snapshot.historyPerUsd);
 
       // 先に画面へ反映する（保存失敗で金額が出ない事故を防ぐ）
       state = _rebuildRows(
@@ -349,9 +361,7 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
     await _prefs.savePinned(newPinned);
     await _prefs.saveOrder(newOrder);
     if (!ref.mounted) return;
-    state = _rebuildRows(
-      state.copyWith(pinned: newPinned, order: newOrder),
-    );
+    state = _rebuildRows(state.copyWith(pinned: newPinned, order: newOrder));
   }
 
   /// ある国の金額を入力したとき、それを基準に他国（固定含む）を換算し直す。
@@ -383,11 +393,7 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
   Set<String> _eligibleCountries(ExchangeListState s) {
     // 十字下の国は、表示件数の上限で visible から落ちても一覧に残す
     final focus = normalizeCountryCode(s.focusCountryCode);
-    return {
-      ...s.visibleCountryCodes,
-      ...s.pinned,
-      if (focus != null) focus,
-    };
+    return {...s.visibleCountryCodes, ...s.pinned, if (focus != null) focus};
   }
 
   ExchangeListState _rebuildRows(
@@ -426,7 +432,8 @@ class ExchangeListNotifier extends Notifier<ExchangeListState> {
       final hasRate = s.ratesPerUsd.containsKey(currency.code);
       double amount = 0;
       if (hasRate && baseCurrency != null) {
-        amount = convertViaUsd(
+        amount =
+            convertViaUsd(
               fromAmount: s.baseAmount,
               fromCurrency: baseCurrency,
               toCurrency: currency.code,

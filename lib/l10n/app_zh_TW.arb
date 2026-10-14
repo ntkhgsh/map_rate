@@ -102,5 +102,11 @@
   "updateUpToDate": "已是最新版本",
   "updateCheckFailed": "無法檢查更新",
   "hideExchangeList": "隱藏匯率列表",
-  "showExchangeList": "顯示匯率列表"
+  "showExchangeList": "顯示匯率列表",
+  "rateSourceTitle": "計算方式",
+  "rateSourceBody": "金額依所選來源的中間價計算。自動依 ExchangeRate-API、CDN、Frankfurter 的順序，使用最先回傳的來源。若未回傳，則使用已儲存或內建匯率。",
+  "rateSourceAuto": "自動（先回傳的來源）",
+  "rateSourceOpenEr": "ExchangeRate-API",
+  "rateSourceCdn": "CDN（currency-api）",
+  "rateSourceFrankfurter": "Frankfurter"
 }

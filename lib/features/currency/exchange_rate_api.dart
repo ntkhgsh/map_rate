@@ -34,34 +34,95 @@ class ExchangeRateSnapshot {
   final bool isOfflineSeed;
 }
 
+/// 設定の「計算方法」。届いた順に試す。
+const rateSourceAuto = 'auto';
+
+/// 設定の「計算方法」。open.er-api.com だけ使う。
+const rateSourceOpenEr = 'openEr';
+
+/// 設定の「計算方法」。CDN の currency-api だけ使う。
+const rateSourceCdn = 'cdn';
+
+/// 設定の「計算方法」。Frankfurter だけ使う。
+const rateSourceFrankfurter = 'frankfurter';
+
+/// 設定や保存データから来た出典名を、使える値だけに整える。
+///
+/// 空や知らない文字列は [rateSourceAuto] に戻す。URL などに使わない。
+String normalizeRateSource(String? raw) {
+  final value = raw?.trim() ?? '';
+  switch (value) {
+    case rateSourceAuto:
+    case rateSourceOpenEr:
+    case rateSourceCdn:
+    case rateSourceFrankfurter:
+      return value;
+    default:
+      return rateSourceAuto;
+  }
+}
+
 /// 複数の無料ソースから中値レートを取る（届くものを使う）。
 class ExchangeRateApi {
   ExchangeRateApi({Dio? dio})
-      : _dio = dio ??
-            Dio(
-              BaseOptions(
-                connectTimeout: const Duration(seconds: 10),
-                receiveTimeout: const Duration(seconds: 15),
-                // 一部のフィルタは独自 User-Agent を弾くので、Accept だけにする
-                headers: const {'Accept': 'application/json'},
-                followRedirects: true,
-                validateStatus: (code) => code != null && code >= 200 && code < 400,
-              ),
-            );
+    : _dio =
+          dio ??
+          Dio(
+            BaseOptions(
+              connectTimeout: const Duration(seconds: 10),
+              receiveTimeout: const Duration(seconds: 15),
+              // 一部のフィルタは独自 User-Agent を弾くので、Accept だけにする
+              headers: const {'Accept': 'application/json'},
+              followRedirects: true,
+              validateStatus: (code) =>
+                  code != null && code >= 200 && code < 400,
+            ),
+          );
 
   final Dio _dio;
 
   /// Frankfurter 履歴用。最新取得では使わない（対応通貨が少ないため）。
   static const frankfurterQuotes = <String>{
-    'AUD', 'BRL', 'CAD', 'CHF', 'CNY', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD',
-    'HUF', 'IDR', 'ILS', 'INR', 'ISK', 'JPY', 'KRW', 'MXN', 'MYR', 'NOK',
-    'NZD', 'PHP', 'PLN', 'RON', 'SEK', 'SGD', 'THB', 'TRY', 'USD', 'ZAR',
+    'AUD',
+    'BRL',
+    'CAD',
+    'CHF',
+    'CNY',
+    'CZK',
+    'DKK',
+    'EUR',
+    'GBP',
+    'HKD',
+    'HUF',
+    'IDR',
+    'ILS',
+    'INR',
+    'ISK',
+    'JPY',
+    'KRW',
+    'MXN',
+    'MYR',
+    'NOK',
+    'NZD',
+    'PHP',
+    'PLN',
+    'RON',
+    'SEK',
+    'SGD',
+    'THB',
+    'TRY',
+    'USD',
+    'ZAR',
   };
 
   /// [currencyCodes] は ISO 4217。
+  ///
+  /// [rateSource] は設定の計算方法。`auto` 以外のときは、その出典だけを試す。
+  /// 届かないときは、他のオンライン出典には切り替えず、同梱レートに落とす。
   Future<ExchangeRateSnapshot> fetchForCurrencies(
     Iterable<String> currencyCodes, {
     CancelToken? cancelToken,
+    String rateSource = rateSourceAuto,
   }) async {
     final wanted = <String>{};
     for (final raw in currencyCodes) {
@@ -73,25 +134,43 @@ class ExchangeRateApi {
     wanted.add('USD');
 
     final ratesPerUsd = <String, double>{'USD': 1.0};
-    final historyPerUsd = <String, List<double>>{'USD': const [1.0]};
+    final historyPerUsd = <String, List<double>>{
+      'USD': const [1.0],
+    };
     var rateDate = _todayUtc();
     var sourceName = 'ExchangeRate-API';
     var isOfflineSeed = false;
 
     Object? lastError;
-    final sources = <Future<({String date, Map<String, double> rates, String name})> Function()>[
-      () => _fetchOpenErLatest(cancelToken),
-      () => _fetchCurrencyApiCdn(cancelToken),
-      () => _fetchFrankfurterLatest(
-            wanted.where((c) => c != 'USD' && frankfurterQuotes.contains(c)).toSet(),
-            cancelToken,
+    // 自動のときはこの順。特定の計算方法のときは、その1件だけ試す。
+    final preferred = normalizeRateSource(rateSource);
+    final sources =
+        <
+          ({
+            String id,
+            Future<({String date, Map<String, double> rates, String name})>
+            Function()
+            load,
+          })
+        >[
+          (id: rateSourceOpenEr, load: () => _fetchOpenErLatest(cancelToken)),
+          (id: rateSourceCdn, load: () => _fetchCurrencyApiCdn(cancelToken)),
+          (
+            id: rateSourceFrankfurter,
+            load: () => _fetchFrankfurterLatest(
+              wanted
+                  .where((c) => c != 'USD' && frankfurterQuotes.contains(c))
+                  .toSet(),
+              cancelToken,
+            ),
           ),
-    ];
+        ];
 
     var gotLatest = false;
     for (final source in sources) {
+      if (preferred != rateSourceAuto && source.id != preferred) continue;
       try {
-        final latest = await source();
+        final latest = await source.load();
         var nonUsdHit = 0;
         for (final code in wanted) {
           if (code == 'USD') continue;
@@ -172,12 +251,10 @@ class ExchangeRateApi {
       ratesPerUsd: Map<String, double>.unmodifiable(
         Map<String, double>.from(ratesPerUsd),
       ),
-      historyPerUsd: Map<String, List<double>>.unmodifiable(
-        {
-          for (final entry in safeHistory.entries)
-            entry.key: List<double>.unmodifiable(entry.value),
-        },
-      ),
+      historyPerUsd: Map<String, List<double>>.unmodifiable({
+        for (final entry in safeHistory.entries)
+          entry.key: List<double>.unmodifiable(entry.value),
+      }),
       rateDate: rateDate,
       fetchedAt: DateTime.now().toUtc(),
       sourceName: sourceName,
@@ -187,13 +264,14 @@ class ExchangeRateApi {
 
   /// アプリ同梱の JSON から仮レートを読む。
   Future<({String date, Map<String, double> rates, String name})>
-      _loadSeedRates() async {
+  _loadSeedRates() async {
     final raw = await rootBundle.loadString('assets/rates_seed.json');
     final decoded = jsonDecode(raw);
     if (decoded is! Map) {
       throw StateError('invalid seed rates json');
     }
-    final date = _dateFromOpenEr(decoded['time_last_update_utc']?.toString()) ??
+    final date =
+        _dateFromOpenEr(decoded['time_last_update_utc']?.toString()) ??
         _todayUtc();
     final rates = _parseFlatRates(decoded['rates']);
     rates['USD'] = 1.0;
@@ -204,7 +282,7 @@ class ExchangeRateApi {
   }
 
   Future<({String date, Map<String, double> rates, String name})>
-      _fetchOpenErLatest(CancelToken? cancelToken) async {
+  _fetchOpenErLatest(CancelToken? cancelToken) async {
     final response = await _dio.get<dynamic>(
       'https://open.er-api.com/v6/latest/USD',
       cancelToken: cancelToken,
@@ -216,7 +294,8 @@ class ExchangeRateApi {
     if (data['result']?.toString() != 'success') {
       throw StateError('open.er-api result=${data['result']}');
     }
-    final date = _dateFromOpenEr(data['time_last_update_utc']?.toString()) ??
+    final date =
+        _dateFromOpenEr(data['time_last_update_utc']?.toString()) ??
         _todayUtc();
     final rates = _parseFlatRates(data['rates']);
     if (rates.isEmpty) throw StateError('empty open.er-api rates');
@@ -225,7 +304,7 @@ class ExchangeRateApi {
 
   /// CDN 経由の日次レート（フィルタに弾かれにくい）。
   Future<({String date, Map<String, double> rates, String name})>
-      _fetchCurrencyApiCdn(CancelToken? cancelToken) async {
+  _fetchCurrencyApiCdn(CancelToken? cancelToken) async {
     final urls = [
       'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json',
       'https://latest.currency-api.pages.dev/v1/currencies/usd.min.json',
@@ -248,13 +327,10 @@ class ExchangeRateApi {
           rates[code] = value.toDouble();
         }
         if (rates.length <= 1) continue;
-        final safeDate =
-            RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(date) ? date : _todayUtc();
-        return (
-          date: safeDate,
-          rates: rates,
-          name: 'currency-api',
-        );
+        final safeDate = RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(date)
+            ? date
+            : _todayUtc();
+        return (date: safeDate, rates: rates, name: 'currency-api');
       } catch (error) {
         lastError = error;
         if (error is DioException && CancelToken.isCancel(error)) {
@@ -266,10 +342,7 @@ class ExchangeRateApi {
   }
 
   Future<({String date, Map<String, double> rates, String name})>
-      _fetchFrankfurterLatest(
-    Set<String> quotes,
-    CancelToken? cancelToken,
-  ) async {
+  _fetchFrankfurterLatest(Set<String> quotes, CancelToken? cancelToken) async {
     if (quotes.isEmpty) {
       return (
         date: _todayUtc(),
@@ -279,10 +352,7 @@ class ExchangeRateApi {
     }
     final response = await _dio.get<dynamic>(
       'https://api.frankfurter.dev/v1/latest',
-      queryParameters: {
-        'from': 'USD',
-        'to': quotes.join(','),
-      },
+      queryParameters: {'from': 'USD', 'to': quotes.join(',')},
       cancelToken: cancelToken,
     );
     final data = response.data;
@@ -309,10 +379,7 @@ class ExchangeRateApi {
     final from = _daysAgoUtc(30);
     final response = await _dio.get<dynamic>(
       'https://api.frankfurter.dev/v1/$from..$toDate',
-      queryParameters: {
-        'from': 'USD',
-        'to': quotes.join(','),
-      },
+      queryParameters: {'from': 'USD', 'to': quotes.join(',')},
       cancelToken: cancelToken,
     );
     final data = response.data;
@@ -331,9 +398,10 @@ class ExchangeRateApi {
         final value = rateEntry.value;
         if (!RegExp(r'^[A-Z]{3}$').hasMatch(code)) continue;
         if (value is! num || !value.isFinite || value <= 0) continue;
-        byCode
-            .putIfAbsent(code, () => <({String date, double rate})>[])
-            .add((date: date, rate: value.toDouble()));
+        byCode.putIfAbsent(code, () => <({String date, double rate})>[]).add((
+          date: date,
+          rate: value.toDouble(),
+        ));
       }
     }
 

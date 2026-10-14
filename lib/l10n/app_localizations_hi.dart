@@ -204,4 +204,23 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get showExchangeList => 'दरें दिखाएँ';
+
+  @override
+  String get rateSourceTitle => 'गणना विधि';
+
+  @override
+  String get rateSourceBody =>
+      'राशि चुने गए स्रोत की मध्य दर से गणना होती है। स्वचालित पहले ExchangeRate-API, फिर CDN, फिर Frankfurter आज़माता है और जो पहले जवाब दे उसे उपयोग करता है। जवाब न मिले तो सहेजी या बंडल दरें उपयोग होती हैं।';
+
+  @override
+  String get rateSourceAuto => 'स्वचालित (जो पहले जवाब दे)';
+
+  @override
+  String get rateSourceOpenEr => 'ExchangeRate-API';
+
+  @override
+  String get rateSourceCdn => 'CDN (currency-api)';
+
+  @override
+  String get rateSourceFrankfurter => 'Frankfurter';
 }

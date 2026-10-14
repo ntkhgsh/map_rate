@@ -102,5 +102,11 @@
   "updateUpToDate": "Sie nutzen die neueste Version",
   "updateCheckFailed": "Update-Prüfung fehlgeschlagen",
   "hideExchangeList": "Kurse ausblenden",
-  "showExchangeList": "Kurse anzeigen"
+  "showExchangeList": "Kurse anzeigen",
+  "rateSourceTitle": "Berechnungsmethode",
+  "rateSourceBody": "Beträge werden mit dem Mittelkurs der gewählten Quelle berechnet. Automatisch fragt zuerst ExchangeRate-API, dann den CDN-Feed und dann Frankfurter ab und nimmt die erste Antwort. Antwortet keine, werden gespeicherte oder mitgelieferte Kurse verwendet.",
+  "rateSourceAuto": "Automatisch (erste Antwort)",
+  "rateSourceOpenEr": "ExchangeRate-API",
+  "rateSourceCdn": "CDN (currency-api)",
+  "rateSourceFrankfurter": "Frankfurter"
 }

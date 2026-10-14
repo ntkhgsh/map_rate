@@ -102,5 +102,11 @@
   "updateUpToDate": "Anda memakai versi terbaru",
   "updateCheckFailed": "Tidak bisa memeriksa pembaruan",
   "hideExchangeList": "Sembunyikan kurs",
-  "showExchangeList": "Tampilkan kurs"
+  "showExchangeList": "Tampilkan kurs",
+  "rateSourceTitle": "Metode perhitungan",
+  "rateSourceBody": "Jumlah dihitung dari kurs tengah sumber yang dipilih. Otomatis mencoba ExchangeRate-API, lalu CDN, lalu Frankfurter, dan memakai yang pertama menjawab. Jika tidak menjawab, kurs tersimpan atau bawaan dipakai.",
+  "rateSourceAuto": "Otomatis (yang pertama menjawab)",
+  "rateSourceOpenEr": "ExchangeRate-API",
+  "rateSourceCdn": "CDN (currency-api)",
+  "rateSourceFrankfurter": "Frankfurter"
 }

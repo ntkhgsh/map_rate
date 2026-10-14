@@ -206,4 +206,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get showExchangeList => 'Show rates';
+
+  @override
+  String get rateSourceTitle => 'Calculation method';
+
+  @override
+  String get rateSourceBody =>
+      'Amounts use the mid-market rate from the source you choose. Automatic tries ExchangeRate-API, then the CDN feed, then Frankfurter, and uses the first that responds. If it does not respond, saved or bundled rates are used.';
+
+  @override
+  String get rateSourceAuto => 'Automatic (first that responds)';
+
+  @override
+  String get rateSourceOpenEr => 'ExchangeRate-API';
+
+  @override
+  String get rateSourceCdn => 'CDN (currency-api)';
+
+  @override
+  String get rateSourceFrankfurter => 'Frankfurter';
 }

@@ -199,6 +199,25 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get showExchangeList => '显示汇率列表';
+
+  @override
+  String get rateSourceTitle => '计算方式';
+
+  @override
+  String get rateSourceBody =>
+      '金额按所选来源的中间价计算。自动按 ExchangeRate-API、CDN、Frankfurter 的顺序，使用最先返回的来源。若未返回，则使用已保存或内置汇率。';
+
+  @override
+  String get rateSourceAuto => '自动（先返回的来源）';
+
+  @override
+  String get rateSourceOpenEr => 'ExchangeRate-API';
+
+  @override
+  String get rateSourceCdn => 'CDN（currency-api）';
+
+  @override
+  String get rateSourceFrankfurter => 'Frankfurter';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -395,4 +414,23 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get showExchangeList => '顯示匯率列表';
+
+  @override
+  String get rateSourceTitle => '計算方式';
+
+  @override
+  String get rateSourceBody =>
+      '金額依所選來源的中間價計算。自動依 ExchangeRate-API、CDN、Frankfurter 的順序，使用最先回傳的來源。若未回傳，則使用已儲存或內建匯率。';
+
+  @override
+  String get rateSourceAuto => '自動（先回傳的來源）';
+
+  @override
+  String get rateSourceOpenEr => 'ExchangeRate-API';
+
+  @override
+  String get rateSourceCdn => 'CDN（currency-api）';
+
+  @override
+  String get rateSourceFrankfurter => 'Frankfurter';
 }

@@ -200,4 +200,23 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get showExchangeList => '為替リストを表示';
+
+  @override
+  String get rateSourceTitle => '計算方法';
+
+  @override
+  String get rateSourceBody =>
+      '金額は、選んだ出典の中値レートで計算します。自動は ExchangeRate-API、CDN、Frankfurter の順で、最初に届いたものを使います。届かないときは、保存済みまたは同梱レートを使います。';
+
+  @override
+  String get rateSourceAuto => '自動（届いた順）';
+
+  @override
+  String get rateSourceOpenEr => 'ExchangeRate-API';
+
+  @override
+  String get rateSourceCdn => 'CDN（currency-api）';
+
+  @override
+  String get rateSourceFrankfurter => 'Frankfurter';
 }

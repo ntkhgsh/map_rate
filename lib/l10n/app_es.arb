@@ -102,5 +102,11 @@
   "updateUpToDate": "Ya tienes la última versión",
   "updateCheckFailed": "No se pudieron buscar actualizaciones",
   "hideExchangeList": "Ocultar tipos",
-  "showExchangeList": "Mostrar tipos"
+  "showExchangeList": "Mostrar tipos",
+  "rateSourceTitle": "Método de cálculo",
+  "rateSourceBody": "Los importes se calculan con el tipo medio de la fuente elegida. Automático prueba ExchangeRate-API, luego el CDN y luego Frankfurter, y usa la primera que responda. Si no responde, se usan tipos guardados o incluidos.",
+  "rateSourceAuto": "Automático (la primera que responda)",
+  "rateSourceOpenEr": "ExchangeRate-API",
+  "rateSourceCdn": "CDN (currency-api)",
+  "rateSourceFrankfurter": "Frankfurter"
 }

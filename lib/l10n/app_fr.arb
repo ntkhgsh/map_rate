@@ -102,5 +102,11 @@
   "updateUpToDate": "Vous avez la dernière version",
   "updateCheckFailed": "Impossible de vérifier les mises à jour",
   "hideExchangeList": "Masquer les cours",
-  "showExchangeList": "Afficher les cours"
+  "showExchangeList": "Afficher les cours",
+  "rateSourceTitle": "Méthode de calcul",
+  "rateSourceBody": "Les montants sont calculés avec le taux moyen de la source choisie. Automatique interroge ExchangeRate-API, puis le flux CDN, puis Frankfurter, et utilise la première réponse. Sans réponse, les taux enregistrés ou fournis sont utilisés.",
+  "rateSourceAuto": "Automatique (première réponse)",
+  "rateSourceOpenEr": "ExchangeRate-API",
+  "rateSourceCdn": "CDN (currency-api)",
+  "rateSourceFrankfurter": "Frankfurter"
 }

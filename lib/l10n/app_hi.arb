@@ -102,5 +102,11 @@
   "updateUpToDate": "आप नवीनतम संस्करण पर हैं",
   "updateCheckFailed": "अपडेट जाँच नहीं हो सकी",
   "hideExchangeList": "दरें छिपाएँ",
-  "showExchangeList": "दरें दिखाएँ"
+  "showExchangeList": "दरें दिखाएँ",
+  "rateSourceTitle": "गणना विधि",
+  "rateSourceBody": "राशि चुने गए स्रोत की मध्य दर से गणना होती है। स्वचालित पहले ExchangeRate-API, फिर CDN, फिर Frankfurter आज़माता है और जो पहले जवाब दे उसे उपयोग करता है। जवाब न मिले तो सहेजी या बंडल दरें उपयोग होती हैं।",
+  "rateSourceAuto": "स्वचालित (जो पहले जवाब दे)",
+  "rateSourceOpenEr": "ExchangeRate-API",
+  "rateSourceCdn": "CDN (currency-api)",
+  "rateSourceFrankfurter": "Frankfurter"
 }

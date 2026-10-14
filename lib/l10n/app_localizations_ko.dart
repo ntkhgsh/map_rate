@@ -200,4 +200,23 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get showExchangeList => '환율 목록 보기';
+
+  @override
+  String get rateSourceTitle => '계산 방법';
+
+  @override
+  String get rateSourceBody =>
+      '금액은 선택한 출처의 중간 환율로 계산합니다. 자동은 ExchangeRate-API, CDN, Frankfurter 순으로 먼저 응답한 출처를 사용합니다. 응답이 없으면 저장된 환율 또는 기본 환율을 사용합니다.';
+
+  @override
+  String get rateSourceAuto => '자동(먼저 응답한 출처)';
+
+  @override
+  String get rateSourceOpenEr => 'ExchangeRate-API';
+
+  @override
+  String get rateSourceCdn => 'CDN(currency-api)';
+
+  @override
+  String get rateSourceFrankfurter => 'Frankfurter';
 }

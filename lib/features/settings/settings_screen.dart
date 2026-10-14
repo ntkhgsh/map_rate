@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:map_rate/features/currency/exchange_rate_api.dart';
 import 'package:map_rate/features/settings/app_settings_provider.dart';
 import 'package:map_rate/l10n/app_localizations.dart';
 
-/// 言語などの設定画面。
+/// 言語と計算方法の設定画面。
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
@@ -23,11 +24,20 @@ class SettingsScreen extends ConsumerWidget {
     (tag: 'id', labelEn: 'Bahasa Indonesia'),
   ];
 
+  /// 計算方法。並びは設定画面の上から順。
+  static const _rateSourceIds = <String>[
+    rateSourceAuto,
+    rateSourceOpenEr,
+    rateSourceCdn,
+    rateSourceFrankfurter,
+  ];
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final settings = ref.watch(appSettingsProvider);
     final currentTag = settings.localeTag;
+    final currentSource = normalizeRateSource(settings.rateSource);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsTitle)),
@@ -57,8 +67,54 @@ class SettingsScreen extends ConsumerWidget {
                 ref.read(appSettingsProvider.notifier).setLocaleTag(choice.tag);
               },
             ),
+          const Divider(height: 1),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Text(
+              l10n.rateSourceTitle,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Text(
+              l10n.rateSourceBody,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ),
+          for (final id in _rateSourceIds)
+            ListTile(
+              title: Text(_rateSourceLabel(l10n, id)),
+              trailing: Icon(
+                currentSource == id
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_off,
+                color: currentSource == id
+                    ? Theme.of(context).colorScheme.primary
+                    : null,
+              ),
+              onTap: () {
+                ref.read(appSettingsProvider.notifier).setRateSource(id);
+              },
+            ),
         ],
       ),
     );
+  }
+}
+
+/// 計算方法の表示名。知らない id は自動にする。
+String _rateSourceLabel(AppLocalizations l10n, String id) {
+  switch (normalizeRateSource(id)) {
+    case rateSourceOpenEr:
+      return l10n.rateSourceOpenEr;
+    case rateSourceCdn:
+      return l10n.rateSourceCdn;
+    case rateSourceFrankfurter:
+      return l10n.rateSourceFrankfurter;
+    default:
+      return l10n.rateSourceAuto;
   }
 }
